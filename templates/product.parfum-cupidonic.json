@@ -404,6 +404,7 @@
         "full_width": true,
         "autoplay": false,
         "video_size": "auto",
+        "video": "shopify://files/videos/Vidéo test Cupidonic parfum.mp4",
         "external_video_url": "",
         "text_color": "#ffffff",
         "overlay_color": "#000000",
