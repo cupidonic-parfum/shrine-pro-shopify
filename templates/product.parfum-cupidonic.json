@@ -263,6 +263,7 @@
             "heading_size": "medium",
             "icon": "check_box",
             "filled_icon": false,
+            "custom_icon": "shopify://shop_images/fragrance_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg",
             "collapse_icon": "carret",
             "display_top_border": true,
             "open": false,
@@ -276,6 +277,23 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Ingrédients",
+            "heading_size": "medium",
+            "icon": "check_box",
+            "filled_icon": false,
+            "custom_icon": "shopify://shop_images/list_alt_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg",
+            "collapse_icon": "carret",
+            "display_top_border": true,
+            "open": false,
+            "content": "",
+            "page": "",
+            "margin_top": 24,
+            "margin_bottom": 0
+          }
+        },
+        "collapsible_tab_DzfiH6": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Collapsible row",
             "heading_size": "medium",
             "icon": "check_box",
             "filled_icon": false,
@@ -301,7 +319,8 @@
         "description",
         "reviews_8UgFbe",
         "de158e68-5d0d-4819-a625-e2dabdff87d1",
-        "collapsible_tab_zeGGEF"
+        "collapsible_tab_zeGGEF",
+        "collapsible_tab_DzfiH6"
       ],
       "custom_css": [],
       "settings": {
