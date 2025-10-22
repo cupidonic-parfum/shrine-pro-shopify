@@ -585,7 +585,7 @@
         "row_wrCVKt": {
           "type": "row",
           "settings": {
-            "benefit": "Benefit",
+            "benefit": "Infusé avec PheroPureVXN™",
             "us": true,
             "others": false
           }
@@ -637,10 +637,10 @@
         "others_label_size": 18,
         "others_logo_width": 90,
         "others_mobile_logo_width": 60,
-        "checkmark_style": "regular",
-        "checkmark_color": "#53AF01",
-        "checkmark_bg_color": "#53AF01",
-        "x_style": "regular",
+        "checkmark_style": "solid",
+        "checkmark_color": "#53af01",
+        "checkmark_bg_color": "#ececec",
+        "x_style": "solid",
         "x_color": "#121212",
         "x_bg_color": "#DBDBDB",
         "opposite_icon_colors": "original",
