@@ -399,6 +399,16 @@
     },
     "video_shrine_pro_TyhXrq": {
       "type": "video-shrine-pro",
+      "blocks": {
+        "play_eXiHdx": {
+          "type": "play",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "play_eXiHdx"
+      ],
+      "disabled": true,
       "name": "Video",
       "settings": {
         "full_width": false,
