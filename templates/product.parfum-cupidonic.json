@@ -689,8 +689,8 @@
         "heading_nVhtQz": {
           "type": "heading",
           "settings": {
-            "title": "Satisfait ou remboursé pendant 30 jours",
-            "title_highlight_color": "#6D388B",
+            "title": "Satisfait ou remboursé pendant <strong>30 jours</strong>",
+            "title_highlight_color": "#41a9b5",
             "heading_size": "h2"
           }
         },
