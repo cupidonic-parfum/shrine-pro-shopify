@@ -683,6 +683,58 @@
         "custom_colors_others_text": "#2e2a39"
       }
     },
+    "image_with_text_NaCzjX": {
+      "type": "image-with-text",
+      "blocks": {
+        "heading_nVhtQz": {
+          "type": "heading",
+          "settings": {
+            "title": "Satisfait ou remboursé pendant 30 jours",
+            "title_highlight_color": "#6D388B",
+            "heading_size": "h2"
+          }
+        },
+        "text_7DnCPE": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "heading_nVhtQz",
+        "text_7DnCPE"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "image": "shopify://shop_images/Satisfait_30_jours_ou_rembourse_1.webp",
+        "height": "adapt",
+        "content_layout": "overlap",
+        "color_scheme": "background-1",
+        "section_color_scheme": "background-1",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "center",
+        "mobile_full_media_width": false,
+        "mobile_direction": "normal",
+        "mobile_image_quanlity": "1",
+        "mobile_content_alignment": "center",
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#2E2A39",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#FFFFFF",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d",
+        "custom_section_colors_background": "#FFFFFF",
+        "custom_section_gradient_background": ""
+      }
+    },
     "b321ab88-2b59-4dba-bade-54885c874ca5": {
       "type": "section-divider",
       "settings": {
@@ -706,6 +758,7 @@
     "image_slider_ckHqL6",
     "results_jGMRAT",
     "comparison_table_A6GMjw",
+    "image_with_text_NaCzjX",
     "b321ab88-2b59-4dba-bade-54885c874ca5"
   ]
 }
