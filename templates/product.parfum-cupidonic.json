@@ -259,7 +259,7 @@
         "de158e68-5d0d-4819-a625-e2dabdff87d1": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Collapsible row",
+            "heading": "Description",
             "heading_size": "medium",
             "icon": "check_box",
             "filled_icon": false,
@@ -267,6 +267,22 @@
             "display_top_border": true,
             "open": false,
             "content": "<p><strong>Tenue : jusqu’à 14 heures de pure intensité.</strong></p><p>Une seule vaporisation de <strong>Cupidonic</strong> suffit à éveiller les sens et à stimuler l’attirance naturelle.</p><p>Plus qu’un simple parfum, <strong>Cupidonic</strong> est une essence magnétique — un véritable élixir de séduction imaginé pour marquer les esprits et envoûter quiconque croise votre sillage.</p>",
+            "page": "",
+            "margin_top": 24,
+            "margin_bottom": 0
+          }
+        },
+        "collapsible_tab_zeGGEF": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Ingrédients",
+            "heading_size": "medium",
+            "icon": "check_box",
+            "filled_icon": false,
+            "collapse_icon": "carret",
+            "display_top_border": true,
+            "open": false,
+            "content": "",
             "page": "",
             "margin_top": 24,
             "margin_bottom": 0
@@ -284,7 +300,8 @@
         "e7a28cbe-03cb-4c9d-a2c4-0e3e76ffb3e5",
         "description",
         "reviews_8UgFbe",
-        "de158e68-5d0d-4819-a625-e2dabdff87d1"
+        "de158e68-5d0d-4819-a625-e2dabdff87d1",
+        "collapsible_tab_zeGGEF"
       ],
       "custom_css": [],
       "settings": {
