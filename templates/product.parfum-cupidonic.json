@@ -642,7 +642,7 @@
         "checkmark_bg_color": "#ececec",
         "x_style": "solid",
         "x_color": "#121212",
-        "x_bg_color": "#DBDBDB",
+        "x_bg_color": "#ececec",
         "opposite_icon_colors": "original",
         "highlighted_color_scheme": "accent-1",
         "highlighted_separator_opacity": 0,
