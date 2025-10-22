@@ -297,10 +297,11 @@
             "heading_size": "medium",
             "icon": "check_box",
             "filled_icon": false,
+            "custom_icon": "shopify://shop_images/info_24dp_000000_FILL0_wght400_GRAD0_opsz24.svg",
             "collapse_icon": "carret",
             "display_top_border": true,
             "open": false,
-            "content": "",
+            "content": "<p>Appliquez le parfum sur les zones chaudes du corps comme les poignets, le cou ou l’arrière des oreilles  pour libérer pleinement ses notes. Répétez l’application si vous souhaitez raviver l’intensité de la fragrance au fil de la journée.</p><p><strong>PRÉCAUTIONS</strong><br/>Réservé à un usage externe.<br/>Ne pas avaler.<br/>Évitez le contact avec les yeux ; en cas de contact, rincez immédiatement à l’eau claire.<br/>Conservez le flacon dans un endroit sûr, à l’écart des enfants.</p>",
             "page": "",
             "margin_top": 24,
             "margin_bottom": 0
