@@ -516,6 +516,69 @@
         "custom_colors_text": "#121212"
       }
     },
+    "results_jGMRAT": {
+      "type": "results",
+      "blocks": {
+        "row_iNLUFi": {
+          "type": "row",
+          "settings": {
+            "percentage": 95,
+            "row_text": "<p>reçoivent des compliments sur leur parfums quotidiennement</p>"
+          }
+        },
+        "row_4PL3er": {
+          "type": "row",
+          "settings": {
+            "percentage": 89,
+            "row_text": "<p>ressentent une différence auprès des femmes</p>"
+          }
+        },
+        "row_eg6x8e": {
+          "type": "row",
+          "settings": {
+            "percentage": 78,
+            "row_text": "<p>ont conclu un date en portant le parfum</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_iNLUFi",
+        "row_4PL3er",
+        "row_eg6x8e"
+      ],
+      "name": "Results",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Résultats obtenus par nos clients",
+        "title_highlight_color": "#41a9b5",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-1",
+        "layout": "results_second",
+        "results_headline": "",
+        "results_title_highlight_color": "#6D388B",
+        "results_headline_size": "h2",
+        "results_text": "",
+        "results_headline_alignment": "left",
+        "caption": "",
+        "button_label": "",
+        "link": "",
+        "button_style_secondary": false,
+        "atc_button_label": "",
+        "atc_product": "",
+        "atc_skip_cart": false,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#FFFFFF",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2E2A39",
+        "custom_colors_accent": "#dd1d1d",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
     "comparison_table_A6GMjw": {
       "type": "comparison-table",
       "blocks": {
@@ -703,6 +766,7 @@
     "related-products",
     "rich_text_e3kXLU",
     "image_slider_ckHqL6",
+    "results_jGMRAT",
     "comparison_table_A6GMjw",
     "55bd100e-3bbd-426c-a5cf-eed7b2a3706f",
     "b321ab88-2b59-4dba-bade-54885c874ca5"
