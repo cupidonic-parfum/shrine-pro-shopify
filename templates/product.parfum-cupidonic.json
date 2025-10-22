@@ -395,8 +395,8 @@
         "heading_Nrk9zT": {
           "type": "heading",
           "settings": {
-            "title": "LE MEILLEUR PARFUM POUR SÉDUIRE",
-            "title_highlight_color": "#6D388B",
+            "title": "LE MEILLEUR PARFUM POUR <strong>SÉDUIRE</strong>",
+            "title_highlight_color": "#41a9b5",
             "heading_size": "h1"
           }
         },
@@ -421,9 +421,9 @@
         "color_scheme": "background-1",
         "padding_top": 40,
         "padding_bottom": 0,
-        "custom_colors_background": "#FFFFFF",
+        "custom_colors_background": "#ffffff",
         "custom_gradient_background": "",
-        "custom_colors_text": "#2E2A39",
+        "custom_colors_text": "#2e2a39",
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff",
         "custom_colors_outline_button": "#dd1d1d"
@@ -478,7 +478,7 @@
         "display_id": false,
         "visibility": "always-display",
         "title": "",
-        "title_highlight_color": "#6D388B",
+        "title_highlight_color": "#6d388b",
         "heading_size": "h2",
         "color_scheme": "background-1",
         "type": "slide",
@@ -511,7 +511,7 @@
         "mobile_arrows_position": "sides",
         "padding_top": 20,
         "padding_bottom": 36,
-        "custom_colors_background": "#FFFFFF",
+        "custom_colors_background": "#ffffff",
         "custom_gradient_background": "",
         "custom_colors_text": "#121212"
       }
@@ -557,7 +557,7 @@
         "color_scheme": "background-1",
         "layout": "results_second",
         "results_headline": "",
-        "results_title_highlight_color": "#6D388B",
+        "results_title_highlight_color": "#6d388b",
         "results_headline_size": "h2",
         "results_text": "",
         "results_headline_alignment": "left",
@@ -570,9 +570,9 @@
         "atc_skip_cart": false,
         "padding_top": 36,
         "padding_bottom": 36,
-        "custom_colors_background": "#FFFFFF",
+        "custom_colors_background": "#ffffff",
         "custom_gradient_background": "",
-        "custom_colors_text": "#2E2A39",
+        "custom_colors_text": "#2e2a39",
         "custom_colors_accent": "#dd1d1d",
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff",
@@ -613,13 +613,22 @@
             "us": true,
             "others": false
           }
+        },
+        "row_RUTtDJ": {
+          "type": "row",
+          "settings": {
+            "benefit": "Prix accessible",
+            "us": true,
+            "others": false
+          }
         }
       },
       "block_order": [
         "row_wrCVKt",
         "row_8CTV4x",
         "row_9rV3kd",
-        "row_m7Kpxj"
+        "row_m7Kpxj",
+        "row_RUTtDJ"
       ],
       "name": "Comparison table",
       "settings": {
@@ -662,16 +671,16 @@
         "minimalistic_border_opacity": 16,
         "padding_top": 36,
         "padding_bottom": 36,
-        "custom_colors_background": "#FFFFFF",
+        "custom_colors_background": "#ffffff",
         "custom_gradient_background": "",
-        "custom_colors_text": "#2E2A39",
+        "custom_colors_text": "#2e2a39",
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff",
         "custom_colors_outline_button": "#dd1d1d",
-        "custom_colors_highlighted_background": "#2E2A39",
-        "custom_colors_highlighted_text": "#FFFFFF",
-        "custom_colors_others_background": "#FFFFFF",
-        "custom_colors_others_text": "#2E2A39"
+        "custom_colors_highlighted_background": "#2e2a39",
+        "custom_colors_highlighted_text": "#ffffff",
+        "custom_colors_others_background": "#ffffff",
+        "custom_colors_others_text": "#2e2a39"
       }
     },
     "55bd100e-3bbd-426c-a5cf-eed7b2a3706f": {
