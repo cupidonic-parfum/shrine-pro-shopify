@@ -397,6 +397,21 @@
         "padding_bottom": 24
       }
     },
+    "video_shrine_pro_TyhXrq": {
+      "type": "video-shrine-pro",
+      "name": "Video",
+      "settings": {
+        "full_width": true,
+        "autoplay": false,
+        "video_size": "auto",
+        "external_video_url": "",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30,
+        "button_bg": "#111111",
+        "button_text": "#ffffff"
+      }
+    },
     "rich_text_e3kXLU": {
       "type": "rich-text",
       "blocks": {
@@ -796,6 +811,7 @@
   "order": [
     "main",
     "related-products",
+    "video_shrine_pro_TyhXrq",
     "rich_text_e3kXLU",
     "image_slider_ckHqL6",
     "results_jGMRAT",
