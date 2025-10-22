@@ -1,0 +1,405 @@
+{%- comment -%}
+  Section: Press — Shrine Pro (style Impact)
+  - Slider JS (track/translateX) + flèches + points
+  - 1 slide par vue (mobile/desktop), centré
+  - Étoiles, citation, logo (fond + bordure), auteur
+  - Full width 100vw option + content size (small/medium/large/fill)
+{%- endcomment -%}
+
+{%- assign is_full = section.settings.full_width -%}
+
+<style>
+  /* Scope */
+  .sp-press-{{ section.id }}{
+    --sp-max: {% case section.settings.content_size %}
+      {% when 'small' %}760{% when 'medium' %}1000{% when 'large' %}1260{% else %}1260{% endcase %}px;
+    --sp-text: {{ section.settings.text_color | default: 'inherit' }};
+    --sp-heading: {{ section.settings.heading_color | default: 'inherit' }};
+    --sp-logo-bg: {{ section.settings.logo_item_background | default: 'transparent' }};
+    --sp-logo-border: {{ section.settings.logo_item_border | default: 'transparent' }};
+    --sp-dot: currentColor;
+  }
+
+  .sp-press-{{ section.id }}{
+    color: var(--sp-text);
+    padding-block: clamp(16px, 3vw, 32px);
+    {%- if section.settings.background_gradient != blank -%}
+      background: {{ section.settings.background_gradient }};
+    {%- elsif section.settings.background != blank -%}
+      background: {{ section.settings.background }};
+    {%- endif -%}
+    {%- if is_full -%}
+      width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+      border-radius:0;
+    {%- else -%}
+      width:min(100%, var(--sp-max)); margin-inline:auto; padding-inline:clamp(12px, 4vw, 24px);
+      border-radius:12px;
+    {%- endif -%}
+  }
+
+  /* Viewport + Track */
+  .sp-press-{{ section.id }} .spv{ position:relative; overflow:hidden; }
+  .sp-press-{{ section.id }} .trk{
+    display:flex; align-items:stretch;
+    transition: transform .35s ease;
+    will-change: transform;
+  }
+  .sp-press-{{ section.id }} .sld{
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-inline: clamp(8px, 2vw, 16px);
+    box-sizing: border-box;
+  }
+
+  /* Slide content */
+  .sp-press-{{ section.id }} .card{
+    text-align:center;
+    margin-inline:auto;
+    max-width:min(860px, 100%);
+  }
+
+  /* Rating */
+  .sp-press-{{ section.id }} .rating{ margin-bottom:10px; }
+  .sp-press-{{ section.id }} .stars{ display:inline-flex; gap:4px; }
+  .sp-press-{{ section.id }} .star{ width:20px; height:20px; display:inline-block; }
+
+  /* Quote */
+  .sp-press-{{ section.id }} blockquote{
+    margin:0 0 12px;
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height:1.3;
+    font-weight:700;
+    color: var(--sp-heading);
+  }
+
+  /* Logo tile */
+  .sp-press-{{ section.id }} .logo-tile{
+    display:inline-flex; align-items:center; justify-content:center;
+    gap:10px; padding:10px 12px; border-radius:10px;
+    background: var(--sp-logo-bg);
+    border: 1px solid var(--sp-logo-border);
+    margin-inline:auto;
+  }
+  .sp-press-{{ section.id }} .logo-img{
+    height:auto; max-width: var(--sp-logo-w, 120px);
+    display:block;
+  }
+  .sp-press-{{ section.id }} .author{ margin-top:6px; opacity:.75; }
+
+  /* Controls */
+  .sp-press-{{ section.id }} .ctrls{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    margin-top:14px;
+  }
+  .sp-press-{{ section.id }} .btn{
+    width:44px; height:44px; border-radius:999px; border:1px solid currentColor;
+    display:grid; place-items:center; background:transparent; cursor:pointer;
+  }
+  .sp-press-{{ section.id }} .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .sp-press-{{ section.id }} .dots{ display:flex; gap:8px; align-items:center; }
+  .sp-press-{{ section.id }} .dots button{
+    width:10px; height:10px; border-radius:999px; border:0; background: var(--sp-dot); opacity:.3;
+  }
+  .sp-press-{{ section.id }} .dots button[aria-current="true"]{ opacity:1; transform:scale(1.1); }
+
+  /* A11y helper (local scope) */
+  .sp-press-{{ section.id }} .sr{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); border:0; }
+  }
+  /* Guillemets décoratifs autour du blockquote (version robuste) */
+.sp-press-{{ section.id }} blockquote{
+  position: relative;
+  font-style: italic;
+}
+
+.sp-press-{{ section.id }} blockquote::before,
+.sp-press-{{ section.id }} blockquote::after{
+  position: absolute;
+  font-size: 2.2rem;
+  line-height: 1;
+  opacity: .15;
+  color: currentColor;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* \201C = “  /  \201D = ”  (plus fiable que les caractères collés) */
+.sp-press-{{ section.id }} blockquote::before{
+  content: "\201C" !important;
+  left: -0.35em;
+  top: -0.25em;
+}
+.sp-press-{{ section.id }} blockquote::after{
+  content: "\201D" !important;
+  right: -0.35em;
+  bottom: -0.55em;
+}
+/* --- Style citation Impact-like amélioré --- */
+.sp-press-{{ section.id }} .card{ max-width: 760px; }
+.sp-press-{{ section.id }} blockquote{
+  position: relative;
+  margin: 0 0 18px;
+  font-style: italic;            /* ✅ italique activé */
+  font-weight: 500;              /* moins lourd pour garder l’élégance */
+  color: var(--sp-heading);
+  font-size: clamp(22px, 3.4vw, 32px);
+  line-height: 1.3;
+  max-width: 24ch;               /* largeur contrôlée, compacte */
+  margin-inline: auto;
+  text-wrap: balance;
+  padding-left: .4em;             /* espace pour le guillemet décoratif */
+}
+
+/* grands guillemets décoratifs */
+.sp-press-{{ section.id }} blockquote::before{
+  content:"\201C";
+  position:absolute;
+  left:-.15em; top:-.25em;
+  font-weight: 900;
+  font-size: clamp(70px, 9vw, 92px); /* ✅ beaucoup plus visible */
+  line-height:1;
+  color: currentColor;
+  opacity:.18;                     /* ✅ plus contrasté qu’avant */
+  font-style: normal;               /* le guillemet reste droit */
+}
+.sp-press-{{ section.id }} blockquote::after{ content: ""; }
+
+/* logo/auteur façon presse */
+.sp-press-{{ section.id }} .logo-tile{
+  background: transparent; border: 0;
+  filter: grayscale(100%); opacity:.95;
+  padding: 0;
+}
+.sp-press-{{ section.id }} .author{
+  margin-top: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  opacity:.9;
+  font-size: 0.9rem;
+}
+
+/* contrôles : flèches et points sobres */
+.sp-press-{{ section.id }} .btn{
+  width: 40px; height: 40px;
+  border-radius: 999px;
+  border: 1px solid rgba(17,24,39,.15);
+  line-height: 1; font-size: 18px;
+}
+.sp-press-{{ section.id }} .dots button{
+  width: 6px; height: 6px; border-radius: 999px;
+  background: #cbd5e1;
+}
+.sp-press-{{ section.id }} .dots button[aria-current="true"]{
+  background: #111827;
+}
+/* === Citation : italique + gras optionnel + guillemets symétriques === */
+.sp-press-{{ section.id }} .card{ max-width: 760px; }
+
+.sp-press-{{ section.id }} blockquote{
+  position: relative;
+  margin: 0 0 18px;
+  font-style: italic;
+  font-weight: {% if section.settings.quote_bold %}700{% else %}500{% endif %}; /* ✅ gras activable */
+  color: var(--sp-heading);
+  font-size: clamp(22px, 3.4vw, 32px);
+  line-height: 1.3;
+  max-width: 24ch;
+  margin-inline: auto;
+  text-wrap: balance;
+  padding-left: .4em; /* place pour le guillemet gauche */
+  border: none !important;      /* ✅ si un style thème ajoute une bordure, on la neutralise */
+}
+
+/* Guillemets décoratifs — même taille/contraste, haut-gauche & bas-droite */
+.sp-press-{{ section.id }} blockquote::before,
+.sp-press-{{ section.id }} blockquote::after{
+  position: absolute;
+  font-weight: 900;
+  font-size: clamp(70px, 9vw, 92px);   /* ✅ identiques */
+  line-height: 1;
+  color: currentColor;
+  opacity: .18;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+.sp-press-{{ section.id }} blockquote::before{
+  content: "\201C";                 /* “ */
+  left: -.15em; top: -.25em;
+  font-style: normal;
+}
+.sp-press-{{ section.id }} blockquote::after{
+  content: "\201D";                 /* ” */
+  right: -.15em; bottom: -.45em;
+  font-style: normal;
+}
+
+/* === Supprimer la barre verticale à gauche (séparateur de slide) === */
+.sp-press-{{ section.id }} .sld + .sld::before{ display: none !important; }
+/* au cas où un style ailleurs ajoute une bordure au blockquote */
+.sp-press-{{ section.id }} blockquote{ border-left: 0 !important; }
+
+/* Logo/auteur (on garde le look presse) */
+.sp-press-{{ section.id }} .logo-tile{ background: transparent; border: 0; filter: grayscale(100%); opacity:.95; padding:0; }
+.sp-press-{{ section.id }} .author{ margin-top:10px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; opacity:.9; font-size:.9rem; }
+
+
+</style>
+
+<section class="sp-press-{{ section.id }}" aria-label="Press">
+  <div class="spv" id="spv-{{ section.id }}">
+    <div class="trk" id="trk-{{ section.id }}">
+      {%- for block in section.blocks -%}
+        <div class="sld" id="sld-{{ section.id }}-{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+          <div class="card">
+            {%- if block.settings.show_rating -%}
+              <div class="rating" aria-label="{{ block.settings.rating }}/5">
+                <div class="stars">
+                  {%- for i in (1..5) -%}
+                    {% if i <= block.settings.rating %}
+                      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    {% else %}
+                      <svg class="star" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" d="M12 2l2.83 6.63 7.19.61-5.46 4.73L18.18 21 12 17.27 5.82 21l1.64-7.03L2 9.24l7.19-.61L12 2z"/></svg>
+                    {% endif %}
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.content != blank -%}
+              <blockquote>{{ block.settings.content }}</blockquote>
+            {%- endif -%}
+
+            {%- if block.settings.logo != blank or block.settings.author != blank -%}
+              <div style="display:grid; gap:8px; justify-items:center;">
+                {%- if block.settings.logo != blank -%}
+                  <div class="logo-tile" style="--sp-logo-w: {{ block.settings.logo_width }}px;">
+                    {%- capture sizes -%}{{ block.settings.logo_width }}px{%- endcapture -%}
+                    {%- capture widths -%}{{ block.settings.logo_width }}, {{ block.settings.logo_width | times: 2 | at_most: block.settings.logo.width }}{%- endcapture -%}
+                    {{ block.settings.logo | image_url: width: block.settings.logo.width | image_tag: class: 'logo-img', loading: 'lazy', widths: widths, sizes: sizes, alt: block.settings.author | escape }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.author != blank -%}
+                  <p class="author">{{ block.settings.author }}</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {%- if section.blocks.size > 1 -%}
+    <div class="ctrls" data-for="spv-{{ section.id }}">
+      <button type="button" class="btn" id="prev-{{ section.id }}" aria-label="Précédent">‹</button>
+      <div class="dots" id="dots-{{ section.id }}">
+        {%- for i in (1..section.blocks.size) -%}
+          <button type="button" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" data-index="{{ forloop.index0 }}"><span class="sr">Aller au slide {{ forloop.index }}</span></button>
+        {%- endfor -%}
+      </div>
+      <button type="button" class="btn" id="next-{{ section.id }}" aria-label="Suivant">›</button>
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+(function(){
+  var id = "{{ section.id }}";
+  var track = document.getElementById("trk-"+id);
+  if(!track) return;
+  var slides = Array.prototype.slice.call(track.children);
+  var dotsWrap = document.getElementById("dots-"+id);
+  var dots = dotsWrap ? Array.prototype.slice.call(dotsWrap.querySelectorAll("button")) : [];
+  var prev = document.getElementById("prev-"+id);
+  var next = document.getElementById("next-"+id);
+  var i = 0;
+
+  function update(){
+    track.style.transform = "translateX(" + (-i*100) + "%)";
+    if(prev) prev.disabled = (i===0);
+    if(next) next.disabled = (i===slides.length-1);
+    dots.forEach(function(b,idx){
+      b.setAttribute("aria-current", idx===i ? "true":"false");
+    });
+  }
+
+  function go(n){
+    i = Math.max(0, Math.min(slides.length-1, n));
+    update();
+  }
+
+  // Buttons
+  if(prev) prev.addEventListener("click", function(){ go(i-1); });
+  if(next) next.addEventListener("click", function(){ go(i+1); });
+  if(dotsWrap){
+    dots.forEach(function(b){
+      b.addEventListener("click", function(){ go(parseInt(b.getAttribute("data-index"),10)||0); });
+    });
+  }
+
+  // Basic swipe
+  var startX = null;
+  track.addEventListener("pointerdown", function(e){ startX = e.clientX; track.setPointerCapture(e.pointerId); });
+  track.addEventListener("pointerup", function(e){
+    if(startX===null) return;
+    var dx = e.clientX - startX;
+    if(Math.abs(dx) > 40){ if(dx < 0) go(i+1); else go(i-1); }
+    startX = null;
+  });
+
+  // Init
+  update();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Press",
+  "tag": "section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "checkbox", "id": "full_width", "label": "Full width", "default": true },
+    { "type": "select", "id": "content_size", "label": "Content size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "fill", "label": "Fill page" }
+      ],
+      "default": "medium"
+    },
+
+    { "type": "checkbox", "id": "quote_bold", "label": "Citation en gras", "default": false },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background", "label": "Background" },
+    { "type": "color_background", "id": "background_gradient", "label": "Background gradient" },
+    { "type": "color", "id": "text_color", "label": "Text" },
+    { "type": "color", "id": "heading_color", "label": "Heading color" },
+    { "type": "color", "id": "logo_item_background", "label": "Logo background" },
+    { "type": "color", "id": "logo_item_border", "label": "Logo border" }
+  ],
+  "blocks": [
+    {
+      "type": "quote",
+      "name": "Quote",
+      "settings": [
+        { "type": "image_picker", "id": "logo", "label": "Logo", "info": "300 x 90px .jpg recommended" },
+        { "type": "range", "id": "logo_width", "min": 50, "max": 350, "unit": "px", "step": 5, "label": "Logo width", "default": 120 },
+        { "type": "text", "id": "author", "label": "Author" },
+        { "type": "text", "id": "content", "label": "Quote", "default": "Write some content about what they say about your store." },
+        { "type": "checkbox", "id": "show_rating", "label": "Show rating", "default": true },
+        { "type": "range", "id": "rating", "min": 0, "max": 5, "label": "Rating", "default": 5 }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Press",
+      "blocks": [ { "type": "quote" }, { "type": "quote" }, { "type": "quote" } ]
+    }
+  ]
+}
+{% endschema %}
