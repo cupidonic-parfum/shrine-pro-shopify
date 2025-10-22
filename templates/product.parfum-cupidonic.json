@@ -389,6 +389,58 @@
         "padding_bottom": 24
       }
     },
+    "rich_text_e3kXLU": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_Nrk9zT": {
+          "type": "heading",
+          "settings": {
+            "title": "LE MEILLEUR PARFUM POUR SÉDUIRE",
+            "title_highlight_color": "#6D388B",
+            "heading_size": "h1"
+          }
+        },
+        "text_R7iBba": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Rejoignez plus de <strong>40 000 hommes</strong> qui ont déjà adopté <strong>Cupidonic</strong> pour son pouvoir d’attraction unique</p>"
+          }
+        },
+        "button_N8dJ4F": {
+          "type": "button",
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_Nrk9zT",
+        "text_R7iBba",
+        "button_N8dJ4F"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "full_width": true,
+        "color_scheme": "background-1",
+        "padding_top": 40,
+        "padding_bottom": 52,
+        "custom_colors_background": "#FFFFFF",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2E2A39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
     "image_slider_ckHqL6": {
       "type": "image-slider",
       "blocks": {
@@ -439,7 +491,7 @@
       "settings": {
         "display_id": false,
         "visibility": "always-display",
-        "title": "LE MEILLEUR PARFUM POUR SÉDUIRE",
+        "title": "",
         "title_highlight_color": "#6D388B",
         "heading_size": "h2",
         "color_scheme": "background-1",
@@ -916,6 +968,7 @@
   "order": [
     "main",
     "related-products",
+    "rich_text_e3kXLU",
     "image_slider_ckHqL6",
     "8beb6911-28c6-482c-976a-e5421ad3e8df",
     "eba88da5-80ac-47fc-aa75-997cfe7b2e59",
