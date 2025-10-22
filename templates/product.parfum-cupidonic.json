@@ -179,7 +179,7 @@
             "filled_icon_4": false,
             "top_text_4": "",
             "bottom_text_4": "",
-            "date_format": "mm_dd",
+            "date_format": "dd_mm_no_dot",
             "days_labels": "Mon, Tue, Wed, Thu, Fri, Sat, Sun",
             "months_labels": "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec",
             "color_scheme": "inverse",
