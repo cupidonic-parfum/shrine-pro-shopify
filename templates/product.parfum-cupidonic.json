@@ -26,7 +26,7 @@
           "type": "rating_stars",
           "settings": {
             "rating": 4.9,
-            "star_color": "#ffcc00",
+            "star_color": "#41a9b5",
             "bg_stars_style": "full",
             "bg_star_color": "#ececec",
             "label": "(xxxx Reviews)",
