@@ -605,12 +605,21 @@
             "us": true,
             "others": false
           }
+        },
+        "row_m7Kpxj": {
+          "type": "row",
+          "settings": {
+            "benefit": "Pensé pour les hommes, apprécié par les femmes",
+            "us": true,
+            "others": false
+          }
         }
       },
       "block_order": [
         "row_wrCVKt",
         "row_8CTV4x",
-        "row_9rV3kd"
+        "row_9rV3kd",
+        "row_m7Kpxj"
       ],
       "name": "Comparison table",
       "settings": {
