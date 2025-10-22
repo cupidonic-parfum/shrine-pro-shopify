@@ -401,9 +401,9 @@
       "type": "video-shrine-pro",
       "name": "Video",
       "settings": {
-        "full_width": true,
+        "full_width": false,
         "autoplay": false,
-        "video_size": "auto",
+        "video_size": "fill",
         "video": "shopify://files/videos/Vidéo test Cupidonic parfum.mp4",
         "external_video_url": "",
         "text_color": "#ffffff",
