@@ -735,6 +735,40 @@
         "custom_section_gradient_background": ""
       }
     },
+    "ss_simple_faq_cAUdr7": {
+      "type": "ss-simple-faq",
+      "blocks": {
+        "text_itpwyp": {
+          "type": "text",
+          "settings": {
+            "question": "Question text",
+            "answer": "<p>Answer richtext</p>"
+          }
+        },
+        "text_wbk78a": {
+          "type": "text",
+          "settings": {
+            "question": "Question text",
+            "answer": "<p>Answer richtext</p>"
+          }
+        }
+      },
+      "block_order": [
+        "text_itpwyp",
+        "text_wbk78a"
+      ],
+      "name": "Faq",
+      "settings": {
+        "heading": "Cupidonic répond à vos questions",
+        "icon_color": "#fff",
+        "hover_color": "#EFEFEF",
+        "question_color": "#fff",
+        "background_color": "#41a9b5",
+        "answer_color": "#000",
+        "answer_bg_color": "#fff",
+        "questions-font-size": 1.5
+      }
+    },
     "b321ab88-2b59-4dba-bade-54885c874ca5": {
       "type": "section-divider",
       "settings": {
@@ -759,6 +793,7 @@
     "results_jGMRAT",
     "comparison_table_A6GMjw",
     "image_with_text_NaCzjX",
+    "ss_simple_faq_cAUdr7",
     "b321ab88-2b59-4dba-bade-54885c874ca5"
   ]
 }
