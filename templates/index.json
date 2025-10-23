@@ -331,6 +331,69 @@
         "custom_tabs_color_label": "#FFFFFF"
       }
     },
+    "results_fzWURH": {
+      "type": "results",
+      "blocks": {
+        "row_Urf3yq": {
+          "type": "row",
+          "settings": {
+            "percentage": 95,
+            "row_text": "<p>reçoivent des compliments sur leur parfums quotidiennement</p>"
+          }
+        },
+        "row_p666MM": {
+          "type": "row",
+          "settings": {
+            "percentage": 89,
+            "row_text": "<p>ressentent une différence auprès des femmes</p>"
+          }
+        },
+        "row_Rw74Kr": {
+          "type": "row",
+          "settings": {
+            "percentage": 78,
+            "row_text": "<p>ont conclu un date en portant le parfum</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_Urf3yq",
+        "row_p666MM",
+        "row_Rw74Kr"
+      ],
+      "name": "Results",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Résultats obtenus par nos clients",
+        "title_highlight_color": "#41a9b5",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-1",
+        "layout": "results_second",
+        "results_headline": "",
+        "results_title_highlight_color": "#6d388b",
+        "results_headline_size": "h2",
+        "results_text": "",
+        "results_headline_alignment": "left",
+        "caption": "",
+        "button_label": "",
+        "link": "",
+        "button_style_secondary": false,
+        "atc_button_label": "",
+        "atc_product": "",
+        "atc_skip_cart": false,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#ffffff",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2e2a39",
+        "custom_colors_accent": "#dd1d1d",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
     "comparison_table_TnjKdn": {
       "type": "comparison-table",
       "blocks": {
@@ -435,67 +498,38 @@
         "custom_colors_others_text": "#2e2a39"
       }
     },
-    "results_fzWURH": {
-      "type": "results",
+    "ss_simple_faq_aky8Xz": {
+      "type": "ss-simple-faq",
       "blocks": {
-        "row_Urf3yq": {
-          "type": "row",
+        "text_Y8kb8z": {
+          "type": "text",
           "settings": {
-            "percentage": 95,
-            "row_text": "<p>reçoivent des compliments sur leur parfums quotidiennement</p>"
+            "question": "Question text",
+            "answer": "<p>Answer richtext</p>"
           }
         },
-        "row_p666MM": {
-          "type": "row",
+        "text_NVEzTw": {
+          "type": "text",
           "settings": {
-            "percentage": 89,
-            "row_text": "<p>ressentent une différence auprès des femmes</p>"
-          }
-        },
-        "row_Rw74Kr": {
-          "type": "row",
-          "settings": {
-            "percentage": 78,
-            "row_text": "<p>ont conclu un date en portant le parfum</p>"
+            "question": "Question text",
+            "answer": "<p>Answer richtext</p>"
           }
         }
       },
       "block_order": [
-        "row_Urf3yq",
-        "row_p666MM",
-        "row_Rw74Kr"
+        "text_Y8kb8z",
+        "text_NVEzTw"
       ],
-      "name": "Results",
+      "name": "Faq",
       "settings": {
-        "display_id": false,
-        "visibility": "always-display",
-        "title": "Résultats obtenus par nos clients",
-        "title_highlight_color": "#41a9b5",
-        "heading_size": "h1",
-        "text": "",
-        "color_scheme": "background-1",
-        "layout": "results_second",
-        "results_headline": "",
-        "results_title_highlight_color": "#6d388b",
-        "results_headline_size": "h2",
-        "results_text": "",
-        "results_headline_alignment": "left",
-        "caption": "",
-        "button_label": "",
-        "link": "",
-        "button_style_secondary": false,
-        "atc_button_label": "",
-        "atc_product": "",
-        "atc_skip_cart": false,
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "custom_colors_background": "#ffffff",
-        "custom_gradient_background": "",
-        "custom_colors_text": "#2e2a39",
-        "custom_colors_accent": "#dd1d1d",
-        "custom_colors_solid_button_background": "#dd1d1d",
-        "custom_colors_solid_button_text": "#ffffff",
-        "custom_colors_outline_button": "#dd1d1d"
+        "heading": "Frequently Asked Questions",
+        "icon_color": "#fff",
+        "hover_color": "#EFEFEF",
+        "question_color": "#fff",
+        "background_color": "#D5CAA6",
+        "answer_color": "#000",
+        "answer_bg_color": "#fff",
+        "questions-font-size": 1.5
       }
     },
     "ee8d9ca6-4a41-401f-83a3-37e138a112b9": {
@@ -607,8 +641,9 @@
     "image_slider_Mh7LRG",
     "rich_text_6HwtaC",
     "content_tabs_DwWqk9",
-    "comparison_table_TnjKdn",
     "results_fzWURH",
+    "comparison_table_TnjKdn",
+    "ss_simple_faq_aky8Xz",
     "ee8d9ca6-4a41-401f-83a3-37e138a112b9",
     "6aa09428-a417-429d-9159-a4e8afd49590"
   ]
