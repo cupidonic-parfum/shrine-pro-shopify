@@ -820,6 +820,13 @@
             "question": "Comment appliquer Cupidonic pour un effet maximal ?",
             "answer": "<p>Pour un résultat optimal, vaporisez le parfum sur vos <strong>zones de pulsation</strong> comme les poignets, le cou et derrière les oreilles.</p><p>La <strong>chaleur naturelle</strong> de ces points favorise la diffusion du parfum et des <strong>phéromones</strong>, créant une <strong>aura captivante</strong> et un <strong>sillage inoubliable</strong> partout où vous passez.</p>"
           }
+        },
+        "text_mXBHCy": {
+          "type": "text",
+          "settings": {
+            "question": "Quelle est la durée d’efficacité du parfum Cupidonic ?",
+            "answer": "<p>En général, <strong>Cupidonic</strong> reste perceptible pendant <strong>plus de 12 heures</strong>, selon votre <strong>peau</strong>, votre <strong>rythme de vie</strong> et la <strong>température ambiante</strong>.<br/><br/>Pour maintenir une présence olfactive marquée tout au long de la journée, vous pouvez <strong>raviver quelques touches</strong> sur vos points de pulsation lorsque vous le souhaitez.</p>"
+          }
         }
       },
       "block_order": [
@@ -829,7 +836,8 @@
         "text_MUTzJ3",
         "text_EXHQGL",
         "text_WDbaEj",
-        "text_364f37"
+        "text_364f37",
+        "text_mXBHCy"
       ],
       "name": "Faq",
       "settings": {
