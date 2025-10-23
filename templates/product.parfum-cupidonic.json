@@ -799,13 +799,21 @@
             "question": "Où concevons-nous nos phéromones ?",
             "answer": "<p>Nos phéromones sont <strong>développées en France</strong> par <strong>deux chimistes chevronnés</strong>, forts de <strong>plus de 20 ans de recherche</strong> dans le domaine de la science des phéromones.<br/><br/>Chaque formule est pensée avec une <strong>rigueur scientifique</strong> pour garantir <strong>qualité, pureté et efficacité.</strong></p>"
           }
+        },
+        "text_EXHQGL": {
+          "type": "text",
+          "settings": {
+            "question": "En quoi Cupidonic est-il unique ?",
+            "answer": "<p><strong>Cupidonic</strong> se démarque par une <strong>formule exclusive</strong>, développée par des experts forts de <strong>plus de 20 ans de recherche</strong> en science des phéromones.<br/><br/>Chaque note a été pensée pour <strong>renforcer l’attirance naturelle</strong> et créer une <strong>fragrance magnétique</strong>, à la fois élégante et irrésistible pour le sexe opposé.</p>"
+          }
         }
       },
       "block_order": [
         "text_itpwyp",
         "text_wbk78a",
         "text_XzmQtr",
-        "text_MUTzJ3"
+        "text_MUTzJ3",
+        "text_EXHQGL"
       ],
       "name": "Faq",
       "settings": {
