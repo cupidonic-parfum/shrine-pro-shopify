@@ -471,14 +471,14 @@
         "tab_iR6rnU": {
           "type": "tab",
           "settings": {
-            "btn_label": "PERCEPTION",
+            "btn_label": "STIMULATION",
             "btn_icon": "",
             "filled_btn_icon": false,
             "loop": false,
             "muted_autoplay": false,
             "btn_color_scheme": "accent-1",
             "btn_animation": false,
-            "title": "PERCEPTION",
+            "title": "STIMULATION",
             "title_highlight_color": "#6D388B",
             "heading_size": "h1",
             "text": "<p>Des capteurs olfactifs situés dans la cavité nasale féminine <strong>captent les molécules de phéromones</strong> diffusées par le parfum <strong>Cupidonic</strong>.</p>",
