@@ -180,46 +180,65 @@
         "custom_tabs_color_label": "#FFFFFF"
       }
     },
-    "d2d3417b-e92f-428c-b221-5bceffb552be": {
+    "comparison_table_TnjKdn": {
       "type": "comparison-table",
       "blocks": {
-        "template--21507361505575__d2d3417b-e92f-428c-b221-5bceffb552be-row-1": {
+        "row_i4VFR7": {
           "type": "row",
           "settings": {
-            "benefit": "Benefit",
+            "benefit": "Infusé avec PheroPureVXN™",
             "us": true,
             "others": false
           }
         },
-        "template--21507361505575__d2d3417b-e92f-428c-b221-5bceffb552be-row-2": {
+        "row_NaWmMb": {
           "type": "row",
           "settings": {
-            "benefit": "Benefit",
+            "benefit": "Validé scientifiquement",
             "us": true,
             "others": false
           }
         },
-        "template--21507361505575__d2d3417b-e92f-428c-b221-5bceffb552be-row-3": {
+        "row_XLhVwA": {
           "type": "row",
           "settings": {
-            "benefit": "Benefit",
+            "benefit": "Déclenche l'attirance et boost la confiance",
+            "us": true,
+            "others": false
+          }
+        },
+        "row_n9KJ9B": {
+          "type": "row",
+          "settings": {
+            "benefit": "Pensé pour les hommes, apprécié par les femmes",
+            "us": true,
+            "others": false
+          }
+        },
+        "row_fzDU74": {
+          "type": "row",
+          "settings": {
+            "benefit": "Prix accessible",
             "us": true,
             "others": false
           }
         }
       },
       "block_order": [
-        "template--21507361505575__d2d3417b-e92f-428c-b221-5bceffb552be-row-1",
-        "template--21507361505575__d2d3417b-e92f-428c-b221-5bceffb552be-row-2",
-        "template--21507361505575__d2d3417b-e92f-428c-b221-5bceffb552be-row-3"
+        "row_i4VFR7",
+        "row_NaWmMb",
+        "row_XLhVwA",
+        "row_n9KJ9B",
+        "row_fzDU74"
       ],
+      "name": "Comparison table",
       "settings": {
         "display_id": false,
         "visibility": "always-display",
-        "title": "Comparison table",
-        "title_highlight_color": "#6d388b",
+        "title": "Qu'est-ce que <strong>Cupidonic</strong> a donc de plus ?",
+        "title_highlight_color": "#41a9b5",
         "heading_size": "h1",
-        "text": "<p>Talk about how and why is your brand better than the others.</p>",
+        "text": "<p>Nous sommes fiers de la qualité et de l'attractivité de notre parfum. Nous ne pouvons pas en dire autant des autres...</p>",
         "button_label": "",
         "link": "",
         "button_style_secondary": false,
@@ -228,21 +247,21 @@
         "atc_skip_cart": false,
         "color_scheme": "background-1",
         "layout": "table_second",
-        "style": "centered",
-        "us_label": "[shop_name]",
+        "style": "classic",
+        "us_label": "Cupidonic",
         "us_label_size": 18,
         "logo_width": 90,
         "mobile_logo_width": 60,
-        "others_label": "Others",
+        "others_label": "Autres marques",
         "others_label_size": 18,
         "others_logo_width": 90,
         "others_mobile_logo_width": 60,
-        "checkmark_style": "regular",
-        "checkmark_color": "#ffffff",
-        "checkmark_bg_color": "#53af01",
-        "x_style": "regular",
+        "checkmark_style": "solid",
+        "checkmark_color": "#53af01",
+        "checkmark_bg_color": "#ececec",
+        "x_style": "solid",
         "x_color": "#121212",
-        "x_bg_color": "#dbdbdb",
+        "x_bg_color": "#ececec",
         "opposite_icon_colors": "original",
         "highlighted_color_scheme": "accent-1",
         "highlighted_separator_opacity": 0,
@@ -434,7 +453,7 @@
   "order": [
     "cfca4268-6358-426c-98ab-d292aeef11e5",
     "content_tabs_DwWqk9",
-    "d2d3417b-e92f-428c-b221-5bceffb552be",
+    "comparison_table_TnjKdn",
     "results_fzWURH",
     "ee8d9ca6-4a41-401f-83a3-37e138a112b9",
     "6aa09428-a417-429d-9159-a4e8afd49590"
