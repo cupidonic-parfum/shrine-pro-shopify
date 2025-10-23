@@ -748,7 +748,7 @@
         "title_highlight_color": "#41a9b5",
         "heading_size": "h1",
         "text": "",
-        "color_scheme": "background-1",
+        "color_scheme": "custom",
         "layout": "results_second",
         "results_headline": "",
         "results_title_highlight_color": "#6d388b",
@@ -764,13 +764,13 @@
         "atc_skip_cart": false,
         "padding_top": 36,
         "padding_bottom": 36,
-        "custom_colors_background": "#ffffff",
+        "custom_colors_background": "#edfafa",
         "custom_gradient_background": "",
         "custom_colors_text": "#2e2a39",
-        "custom_colors_accent": "#dd1d1d",
-        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_accent": "#41a9b5",
+        "custom_colors_solid_button_background": "#41a9b5",
         "custom_colors_solid_button_text": "#ffffff",
-        "custom_colors_outline_button": "#dd1d1d"
+        "custom_colors_outline_button": "#41a9b5"
       }
     },
     "comparison_table_TnjKdn": {
