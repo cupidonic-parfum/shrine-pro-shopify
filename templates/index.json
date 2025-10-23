@@ -344,7 +344,7 @@
         "buy_buttons_YWCqq8": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": false,
+            "show_dynamic_checkout": true,
             "skip_cart": false,
             "uppercase_text": true,
             "icon_scale": 120,
@@ -359,6 +359,14 @@
             "margin_top": 24,
             "margin_bottom": 24
           }
+        },
+        "payment_badges_JeTDDB": {
+          "type": "payment_badges",
+          "settings": {
+            "enabled_payment_types": "american_express, apple_pay, google_pay, master, visa",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
         }
       },
       "block_order": [
@@ -369,7 +377,8 @@
         "custom_liquid_QhGTf3",
         "quantity_selector_AEKmPg",
         "custom_liquid_LBXGGe",
-        "buy_buttons_YWCqq8"
+        "buy_buttons_YWCqq8",
+        "payment_badges_JeTDDB"
       ],
       "name": "t:sections.featured-product.presets.name",
       "settings": {
