@@ -499,7 +499,7 @@
           "type": "tab",
           "settings": {
             "btn_label": "RÉACTION DU CERVEAU",
-            "btn_icon": "",
+            "btn_icon": "emergency_home",
             "filled_btn_icon": false,
             "loop": false,
             "muted_autoplay": false,
@@ -526,7 +526,7 @@
           "type": "tab",
           "settings": {
             "btn_label": "ATTRACTION",
-            "btn_icon": "",
+            "btn_icon": "ecg_heart",
             "filled_btn_icon": true,
             "loop": false,
             "muted_autoplay": false,
