@@ -525,7 +525,7 @@
         "dots_color_scheme": "inverse",
         "desktop_full_page": false,
         "desktop_border_radius": 0,
-        "slides_desktop": 3,
+        "slides_desktop": 2,
         "per_move_desktop": 1,
         "desktop_spacing": 28,
         "desktop_side_padding": 0,
@@ -759,13 +759,13 @@
         "mobile_content_alignment": "center",
         "padding_top": 36,
         "padding_bottom": 36,
-        "custom_colors_background": "#2E2A39",
+        "custom_colors_background": "#2e2a39",
         "custom_gradient_background": "",
-        "custom_colors_text": "#FFFFFF",
+        "custom_colors_text": "#ffffff",
         "custom_colors_solid_button_background": "#dd1d1d",
         "custom_colors_solid_button_text": "#ffffff",
         "custom_colors_outline_button": "#dd1d1d",
-        "custom_section_colors_background": "#FFFFFF",
+        "custom_section_colors_background": "#ffffff",
         "custom_section_gradient_background": ""
       }
     },
@@ -794,12 +794,12 @@
       "name": "Faq",
       "settings": {
         "heading": "Cupidonic répond à vos questions",
-        "icon_color": "#fff",
-        "hover_color": "#EFEFEF",
-        "question_color": "#fff",
+        "icon_color": "#ffffff",
+        "hover_color": "#efefef",
+        "question_color": "#ffffff",
         "background_color": "#41a9b5",
-        "answer_color": "#000",
-        "answer_bg_color": "#fff",
+        "answer_color": "#000000",
+        "answer_bg_color": "#ffffff",
         "questions-font-size": 1.5
       }
     },
