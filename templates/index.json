@@ -498,27 +498,75 @@
         "custom_colors_others_text": "#2e2a39"
       }
     },
-    "ss_simple_faq_Yf84Qd": {
+    "ss_simple_faq_9Xde79": {
       "type": "ss-simple-faq",
       "blocks": {
-        "text_fxEBNU": {
+        "text_pyLzLX": {
           "type": "text",
           "settings": {
-            "question": "Question text",
-            "answer": "<p>Answer richtext</p>"
+            "question": "Qu’est-ce que PheroPureVXN™ ?",
+            "answer": "<p><strong>PheroPureVXN™</strong> est une <strong>formule brevetée</strong> de phéromones conçue par des spécialistes après <strong>plus de 20 ans de recherche</strong> dans le domaine de la chimie comportementale.<br/><br/>Ce complexe exclusif a été élaboré pour <strong>stimuler votre pouvoir d’attraction naturel</strong>, <strong>renforcer la confiance en soi</strong> et <strong>favoriser des interactions sociales et romantiques plus harmonieuses</strong>.</p><p>Il repose sur l’association de <strong>trois phéromones essentielles</strong> :<br/><br/>✔ <strong>Androsténone</strong> : Accentue la virilité, la confiance et l’aura de leadership.<br/><br/>✔ <strong>Androstadiénone</strong> : Renforce l’attirance et intensifie le charme naturel.<br/><br/>✔ <strong>Androsténol</strong> : Facilite la communication et favorise des connexions authentiques.</p>"
           }
         },
-        "text_WYJyn3": {
+        "text_UbYmGz": {
           "type": "text",
           "settings": {
-            "question": "Question text",
-            "answer": "<p>Answer richtext</p>"
+            "question": "Comment agissent les phéromones ?",
+            "answer": "<p>Les phéromones sont des <strong>messagers chimiques naturels</strong> capables d’influencer les comportements entre individus.<br/><br/>Chez l’humain, elles pourraient être perçues par un <strong>organe sensoriel appelé VNO</strong> (organe voméronasal), lié aux zones du cerveau qui régissent les émotions et l’attirance.<br/><br/>En intégrant des <strong>phéromones synthétiques</strong> dans notre parfum, nous visons à <strong>stimuler ces signaux biologiques</strong> pour renforcer le <strong>pouvoir d’attraction et la connexion naturelle</strong> entre les personnes.</p>"
+          }
+        },
+        "text_8n4VDh": {
+          "type": "text",
+          "settings": {
+            "question": "Comment les phéromones de Cupidonic sont-elles fabriquées ?",
+            "answer": "<p>Nos phéromones sont <strong>synthétisées en laboratoire</strong> par une équipe spécialisée afin de <strong>reproduire fidèlement</strong> celles naturellement émises par le corps humain.<br/><br/>Cette approche permet d’obtenir une <strong>structure moléculaire quasi identique</strong> aux phéromones biologiques.<br/><br/>Une fois la formule perfectionnée, elles sont <strong>intégrées à notre parfum</strong> pour créer un <strong>mélange unique</strong>, capable d’amplifier <strong>l’attraction, le charisme et la connexion naturelle</strong> entre les individus.</p>"
+          }
+        },
+        "text_R9iCni": {
+          "type": "text",
+          "settings": {
+            "question": "Où concevons-nous nos phéromones ?",
+            "answer": "<p>Nos phéromones sont <strong>développées en France</strong> par <strong>deux chimistes chevronnés</strong>, forts de <strong>plus de 20 ans de recherche</strong> dans le domaine de la science des phéromones.<br/><br/>Chaque formule est pensée avec une <strong>rigueur scientifique</strong> pour garantir <strong>qualité, pureté et efficacité.</strong></p>"
+          }
+        },
+        "text_eDQ7f4": {
+          "type": "text",
+          "settings": {
+            "question": "En quoi Cupidonic est-il unique ?",
+            "answer": "<p><strong>Cupidonic</strong> se démarque par une <strong>formule exclusive</strong>, développée par des experts forts de <strong>plus de 20 ans de recherche</strong> en science des phéromones.<br/><br/>Chaque note a été pensée pour <strong>renforcer l’attirance naturelle</strong> et créer une <strong>fragrance magnétique</strong>, à la fois élégante et irrésistible pour le sexe opposé.</p>"
+          }
+        },
+        "text_CKzHYf": {
+          "type": "text",
+          "settings": {
+            "question": "Peut-on utiliser Cupidonic tous les jours ?",
+            "answer": "<p>Oui, sans problème. Nos parfums, enrichis en <strong>PheroPureVXN™</strong>, sont conçus pour <strong>amplifier naturellement vos phéromones</strong> tout en restant <strong>doux pour la peau</strong>.<br/><br/>Leur composition de <strong>haute qualité</strong> les rend adaptés à un <strong>usage quotidien</strong>.<br/><br/>En cas d’irritation rare, il est conseillé de consulter un professionnel de santé avant reprise.</p>"
+          }
+        },
+        "text_K6hEjx": {
+          "type": "text",
+          "settings": {
+            "question": "Comment appliquer Cupidonic pour un effet maximal ?",
+            "answer": "<p>Pour un résultat optimal, vaporisez le parfum sur vos <strong>zones de pulsation</strong> comme les poignets, le cou et derrière les oreilles.</p><p>La <strong>chaleur naturelle</strong> de ces points favorise la diffusion du parfum et des <strong>phéromones</strong>, créant une <strong>aura captivante</strong> et un <strong>sillage inoubliable</strong> partout où vous passez.</p>"
+          }
+        },
+        "text_K9nztr": {
+          "type": "text",
+          "settings": {
+            "question": "Quelle est la durée d’efficacité du parfum Cupidonic ?",
+            "answer": "<p>En général, <strong>Cupidonic</strong> reste perceptible pendant <strong>plus de 12 heures</strong>, selon votre <strong>peau</strong>, votre <strong>rythme de vie</strong> et la <strong>température ambiante</strong>.<br/><br/>Pour maintenir une présence olfactive marquée tout au long de la journée, vous pouvez <strong>raviver quelques touches</strong> sur vos points de pulsation lorsque vous le souhaitez.</p>"
           }
         }
       },
       "block_order": [
-        "text_fxEBNU",
-        "text_WYJyn3"
+        "text_pyLzLX",
+        "text_UbYmGz",
+        "text_8n4VDh",
+        "text_R9iCni",
+        "text_eDQ7f4",
+        "text_CKzHYf",
+        "text_K6hEjx",
+        "text_K9nztr"
       ],
       "name": "Faq",
       "settings": {
@@ -643,7 +691,7 @@
     "content_tabs_DwWqk9",
     "results_fzWURH",
     "comparison_table_TnjKdn",
-    "ss_simple_faq_Yf84Qd",
+    "ss_simple_faq_9Xde79",
     "ee8d9ca6-4a41-401f-83a3-37e138a112b9",
     "6aa09428-a417-429d-9159-a4e8afd49590"
   ]
