@@ -472,7 +472,7 @@
           "type": "tab",
           "settings": {
             "btn_label": "STIMULATION",
-            "btn_icon": "",
+            "btn_icon": "bolt",
             "filled_btn_icon": true,
             "loop": false,
             "muted_autoplay": false,
