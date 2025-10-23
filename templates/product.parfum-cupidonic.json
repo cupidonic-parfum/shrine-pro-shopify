@@ -792,12 +792,20 @@
             "question": "Comment les phéromones de Cupidonic sont-elles fabriquées ?",
             "answer": "<p>Nos phéromones sont <strong>synthétisées en laboratoire</strong> par une équipe spécialisée afin de <strong>reproduire fidèlement</strong> celles naturellement émises par le corps humain.<br/><br/>Cette approche permet d’obtenir une <strong>structure moléculaire quasi identique</strong> aux phéromones biologiques.<br/><br/>Une fois la formule perfectionnée, elles sont <strong>intégrées à notre parfum</strong> pour créer un <strong>mélange unique</strong>, capable d’amplifier <strong>l’attraction, le charisme et la connexion naturelle</strong> entre les individus.</p>"
           }
+        },
+        "text_MUTzJ3": {
+          "type": "text",
+          "settings": {
+            "question": "Où concevons-nous nos phéromones ?",
+            "answer": "<p>Nos phéromones sont <strong>développées en France</strong> par <strong>deux chimistes chevronnés</strong>, forts de <strong>plus de 20 ans de recherche</strong> dans le domaine de la science des phéromones.<br/><br/>Chaque formule est pensée avec une <strong>rigueur scientifique</strong> pour garantir <strong>qualité, pureté et efficacité.</strong></p>"
+          }
         }
       },
       "block_order": [
         "text_itpwyp",
         "text_wbk78a",
-        "text_XzmQtr"
+        "text_XzmQtr",
+        "text_MUTzJ3"
       ],
       "name": "Faq",
       "settings": {
