@@ -473,8 +473,7 @@
           "settings": {
             "btn_label": "STIMULATION",
             "btn_icon": "",
-            "filled_btn_icon": false,
-            "image": "shopify://shop_images/Stimulation.webp",
+            "filled_btn_icon": true,
             "loop": false,
             "muted_autoplay": false,
             "btn_color_scheme": "accent-1",
@@ -527,8 +526,8 @@
           "type": "tab",
           "settings": {
             "btn_label": "ATTRACTION",
-            "btn_icon": "ecg_heart",
-            "filled_btn_icon": false,
+            "btn_icon": "",
+            "filled_btn_icon": true,
             "loop": false,
             "muted_autoplay": false,
             "btn_color_scheme": "accent-1",
