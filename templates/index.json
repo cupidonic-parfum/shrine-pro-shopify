@@ -397,7 +397,7 @@
         "icon_layout": "vertical",
         "icon_size": "large",
         "icon_color": "accent-1",
-        "cards_color_scheme": "background-1",
+        "cards_color_scheme": "custom",
         "type": "slide",
         "autoplay": false,
         "autoplay_speed": 5,
