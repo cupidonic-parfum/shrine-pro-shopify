@@ -395,7 +395,7 @@
         "hide_variants": false,
         "enable_video_looping": false,
         "mobile_media_corner_radius": 12,
-        "full_media_width": false,
+        "full_media_width": true,
         "padding_top": 36,
         "padding_bottom": 36
       }
