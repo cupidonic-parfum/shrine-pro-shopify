@@ -501,6 +501,7 @@
             "btn_label": "RÉACTION DU CERVEAU",
             "btn_icon": "",
             "filled_btn_icon": false,
+            "image": "shopify://shop_images/Stimulation.webp",
             "loop": false,
             "muted_autoplay": false,
             "btn_color_scheme": "accent-1",
@@ -518,7 +519,7 @@
             "desktop_media_width": "full",
             "desktop_media_position": "media_first",
             "desktop_text_alignment": "center",
-            "mobile_media_position": "media_first",
+            "mobile_media_position": "media_second",
             "mobile_text_alignment": "mobile-center"
           }
         },
