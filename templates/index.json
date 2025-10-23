@@ -59,6 +59,127 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
+    "content_tabs_DwWqk9": {
+      "type": "content-tabs",
+      "blocks": {
+        "tab_38FikC": {
+          "type": "tab",
+          "settings": {
+            "btn_label": "ANDROSTÉNONE",
+            "btn_icon": "",
+            "filled_btn_icon": false,
+            "loop": false,
+            "muted_autoplay": false,
+            "btn_color_scheme": "accent-1",
+            "btn_animation": false,
+            "title": "L'ANDROSTÉNONE",
+            "title_highlight_color": "#6D388B",
+            "heading_size": "h1",
+            "text": "<p>Naturellement produite chez les hommes, <strong>l’androsténone</strong> incarne la force et la virilité. Elle agit comme un <strong>amplificateur de confiance</strong> et de <strong>présence dominante</strong> dans les interactions sociales.<br/><br/>Discrète mais puissante, cette molécule renforce <strong>l’attractivité perçue</strong>, inspire <strong>le respect</strong>, et favorise souvent une <strong>attitude de leader</strong> qui attire naturellement l’attention et l’admiration.</p>",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_skip_cart": false,
+            "product": "",
+            "desktop_media_width": "full",
+            "desktop_media_position": "media_first",
+            "desktop_text_alignment": "center",
+            "mobile_media_position": "media_first",
+            "mobile_text_alignment": "mobile-center"
+          }
+        },
+        "tab_hVarLk": {
+          "type": "tab",
+          "settings": {
+            "btn_label": "ANDROSTADIÉNONE",
+            "btn_icon": "",
+            "filled_btn_icon": false,
+            "loop": false,
+            "muted_autoplay": false,
+            "btn_color_scheme": "accent-1",
+            "btn_animation": false,
+            "title": "L'ANDROSTADIÉNONE",
+            "title_highlight_color": "#6D388B",
+            "heading_size": "h1",
+            "text": "<p>Véritable <strong>déclencheur d’attirance</strong>, l’androstadiénone agit comme un <strong>catalyseur de séduction</strong>. Elle intensifie le charme naturel et crée une <strong>connexion émotionnelle subtile mais puissante</strong> lors des interactions.<br/><br/>Cette phéromone amplifie le <strong>magnétisme personnel</strong>, capte l’attention dès les premiers instants et laisse une <strong>impression durable</strong>, donnant un réel avantage dans le jeu de la séduction.</p>",
+            "button_label": "Button label",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_skip_cart": false,
+            "product": "",
+            "desktop_media_width": "half",
+            "desktop_media_position": "media_first",
+            "desktop_text_alignment": "center",
+            "mobile_media_position": "media_first",
+            "mobile_text_alignment": "mobile-center"
+          }
+        },
+        "tab_VRhGCf": {
+          "type": "tab",
+          "settings": {
+            "btn_label": "ANDROSTÉNOL",
+            "btn_icon": "",
+            "filled_btn_icon": false,
+            "loop": false,
+            "muted_autoplay": false,
+            "btn_color_scheme": "accent-1",
+            "btn_animation": false,
+            "title": "L'ANDROSTÉNOL",
+            "title_highlight_color": "#6D388B",
+            "heading_size": "h1",
+            "text": "<p><br/>Reconnu pour ses effets <strong>sociaux et apaisants</strong>, l’androsténol facilite la communication et favorise un <strong>sentiment de proximité naturelle</strong>.<br/><br/>Il instaure un climat de <strong>confiance et d’harmonie</strong>, rendant les échanges plus fluides et agréables.<br/><br/>Sa présence subtile encourage la <strong>coopération</strong>, renforce les <strong>liens interpersonnels</strong> et crée une atmosphère propice à la <strong>connexion authentique</strong>.<br/></p>",
+            "button_label": "",
+            "link": "",
+            "button_style_secondary": false,
+            "atc_button_label": "",
+            "atc_skip_cart": false,
+            "product": "",
+            "desktop_media_width": "half",
+            "desktop_media_position": "media_first",
+            "desktop_text_alignment": "center",
+            "mobile_media_position": "media_first",
+            "mobile_text_alignment": "mobile-center"
+          }
+        }
+      },
+      "block_order": [
+        "tab_38FikC",
+        "tab_hVarLk",
+        "tab_VRhGCf"
+      ],
+      "name": "Content tabs",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "title": "Les 3 phéromones du parfum Cupidonic",
+        "title_highlight_color": "#6D388B",
+        "heading_size": "h1",
+        "text": "",
+        "color_scheme": "background-1",
+        "container_width": "100",
+        "buttons_color_scheme": "accent-1",
+        "button_border_radius": 6,
+        "buttons_style": "outlined",
+        "active_button_animation": "moving",
+        "header_layout": "vertical",
+        "buttons_desktop_font_size": 15,
+        "desktop_full_size_buttons": false,
+        "buttons_mobile_font_size": 13,
+        "mobile_full_size_buttons": true,
+        "padding_top": 36,
+        "padding_bottom": 36,
+        "custom_colors_background": "#FFFFFF",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2E2A39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d",
+        "custom_tabs_color": "#000000",
+        "custom_tabs_color_label": "#FFFFFF"
+      }
+    },
     "d2d3417b-e92f-428c-b221-5bceffb552be": {
       "type": "comparison-table",
       "blocks": {
@@ -318,6 +439,7 @@
   },
   "order": [
     "cfca4268-6358-426c-98ab-d292aeef11e5",
+    "content_tabs_DwWqk9",
     "d2d3417b-e92f-428c-b221-5bceffb552be",
     "6aa09428-a417-429d-9159-a4e8afd49590",
     "0f1fc9e4-bc4c-4052-9747-62d1f8472caa",
