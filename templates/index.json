@@ -59,6 +59,39 @@
         "accessibility_info": "Slideshow about our brand"
       }
     },
+    "rich_text_jTEG4G": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_aMm6tR": {
+          "type": "heading",
+          "settings": {
+            "title": "LE MEILLEUR PARFUM POUR <strong>SÉDUIRE</strong>",
+            "title_highlight_color": "#41a9b5",
+            "heading_size": "h2"
+          }
+        }
+      },
+      "block_order": [
+        "heading_aMm6tR"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "display_id": false,
+        "visibility": "always-display",
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "full_width": true,
+        "color_scheme": "background-1",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "custom_colors_background": "#FFFFFF",
+        "custom_gradient_background": "",
+        "custom_colors_text": "#2E2A39",
+        "custom_colors_solid_button_background": "#dd1d1d",
+        "custom_colors_solid_button_text": "#ffffff",
+        "custom_colors_outline_button": "#dd1d1d"
+      }
+    },
     "image_slider_Mh7LRG": {
       "type": "image-slider",
       "blocks": {
@@ -139,7 +172,7 @@
         "mobile_adaptive_height": false,
         "mobile_dots_position": "under",
         "mobile_arrows_position": "hidden",
-        "padding_top": 20,
+        "padding_top": 12,
         "padding_bottom": 16,
         "custom_colors_background": "#ffffff",
         "custom_gradient_background": "",
@@ -570,6 +603,7 @@
   },
   "order": [
     "cfca4268-6358-426c-98ab-d292aeef11e5",
+    "rich_text_jTEG4G",
     "image_slider_Mh7LRG",
     "rich_text_6HwtaC",
     "content_tabs_DwWqk9",
