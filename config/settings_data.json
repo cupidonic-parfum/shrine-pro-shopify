@@ -267,7 +267,7 @@
           "6269cf6e-8e24-4068-8e2a-35bb4addad4e": {
             "type": "countdown_timer",
             "settings": {
-              "timer_text": "<strong>Cart reserved for [timer]</strong>",
+              "timer_text": "<strong>Votre panier est réservé pendant [timer]</strong>",
               "timer_duration": 300,
               "font_size": "1.4",
               "color_scheme": "inverse",
@@ -336,7 +336,7 @@
               "compare_price_color": "text",
               "display_single_item_prices": true,
               "enable_savings": true,
-              "savings_text": "<strong>(You save [amount])</strong>",
+              "savings_text": "",
               "savings_color": "text",
               "quantity_font_size": 14,
               "quantity_container_padding": 0,
