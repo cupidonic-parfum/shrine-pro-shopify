@@ -426,7 +426,7 @@
         "settings": {
           "test_mode": false,
           "heading_text": "Cart • [count] items",
-          "heading_alignment": "flex-start",
+          "heading_alignment": "center",
           "desktop_width": "normal",
           "mobile_width": "full",
           "enable_header_bg": false,
