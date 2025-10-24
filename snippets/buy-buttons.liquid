@@ -1,262 +1,168 @@
 {% comment %}
-  Renders product buy-buttons.
-  Accepts:
-  - product: {Object} product object.
-  - block: {Object} passing the block information.
-  - product_form_id: {String} product form id.
-  - section_id: {String} id of section to which this snippet belongs.
-  - show_pickup_availability:: {Boolean} for the pickup availability.
+Panier fallback "classique"
+Objectif :
+- Permettre de voir les articles du panier
+- Modifier les quantités
+- Supprimer un article
+- Passer au paiement
 
-  Usage:
-  {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, show_pickup_availability: true %}
+Ce template ne dépend pas du drawer AJAX du thème ShrinePro.
+Il fonctionne en pur POST sur /cart.
 {% endcomment %}
 
-<style>
-  #ProductSubmitButton-{{ section_id }},
-  #SectionAtcBtn-{{ section_id }} {
-    --icon-scale: {{ block.settings.icon_scale | divided_by: 100.0 }}em;
-    --icon-spacing: {{ block.settings.icon_spacing }}px;
-  }
+{% if cart.item_count == 0 %}
+  <section class="page-width" style="padding:2rem 1rem;">
+    <h1>Votre panier est vide</h1>
+    <p>Continuer vos achats :</p>
+    <p>
+      <a href="{{ routes.root_url }}" class="button">Retour à la boutique</a>
+    </p>
+  </section>
+{% else %}
 
-  {% if block.settings.enable_custom_color %}
-    #ProductSubmitButton-{{ section_id }} {
-      --color-button: {{ block.settings.custom_color.red }}, {{ block.settings.custom_color.green }}, {{ block.settings.custom_color.blue }};
-    }
-  {% endif %}
+  <form action="/cart" method="post" novalidate class="cart-form" style="max-width:900px;margin:2rem auto;padding:1rem;">
+    <h1 style="margin-bottom:1rem;">Votre panier</h1>
 
-  {% if block.settings.prefix_icon != blank %}
-    #ProductSubmitButton-{{ section_id }} .button__label::before {
-      background-image: url('{{ block.settings.prefix_icon | image_url }}');
-    }
-  {% endif %}
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="text-align:left;border-bottom:1px solid #ddd;">
+          <th style="padding:.5rem 0;">Produit</th>
+          <th style="padding:.5rem 0;">Prix</th>
+          <th style="padding:.5rem 0;">Quantité</th>
+          <th style="padding:.5rem 0;text-align:right;">Total</th>
+        </tr>
+      </thead>
 
-  {% if block.settings.suffix_icon != blank %}
-    #ProductSubmitButton-{{ section_id }} .button__label::after {
-      background-image: url('{{ block.settings.suffix_icon | image_url }}');
-    }
-  {% endif %}
+      <tbody>
+        {% for item in cart.items %}
+          <tr style="border-bottom:1px solid #eee;vertical-align:top;">
+            <td style="padding:1rem 0;display:flex;gap:1rem;align-items:flex-start;">
+              <a href="{{ item.url }}" style="flex-shrink:0;display:block;width:80px;">
+                {% if item.image %}
+                  <img
+                    src="{{ item.image | image_url: width:160 }}"
+                    alt="{{ item.image.alt | escape }}"
+                    style="width:80px;height:auto;border:1px solid #eee;border-radius:6px;display:block;"
+                    loading="lazy"
+                  >
+                {% endif %}
+              </a>
+              <div style="line-height:1.4;">
+                <a href="{{ item.url }}" style="font-weight:600;color:#000;text-decoration:none;">
+                  {{ item.product.title }}
+                </a>
+                {% if item.variant.title != 'Default Title' %}
+                  <div style="font-size:.9rem;color:#666;">
+                    {{ item.variant.title }}
+                  </div>
+                {% endif %}
 
-  {% if block.settings.secondary_btn_enable_custom_color %}
-    #SectionAtcBtn-{{ section_id }} {
-      --color-base-accent-1: {{ block.settings.secondary_btn_custom_color.red }}, {{ block.settings.secondary_btn_custom_color.green }}, {{ block.settings.secondary_btn_custom_color.blue }};
-      --color-base-outline-button-labels: {{ block.settings.secondary_btn_custom_color.red }}, {{ block.settings.secondary_btn_custom_color.green }}, {{ block.settings.secondary_btn_custom_color.blue }};
-    }
-  {% endif %}
+                {% if item.selling_plan_allocation %}
+                  <div style="font-size:.8rem;color:#666;margin-top:.25rem;">
+                    {{ item.selling_plan_allocation.selling_plan.name }}
+                  </div>
+                {% endif %}
 
-  {% if block.settings.secondary_btn_prefix_icon != blank %}
-    #SectionAtcBtn-{{ section_id }} .button__label::before {
-      background-image: url('{{ block.settings.secondary_btn_prefix_icon | image_url }}');
-    }
-  {% endif %}
+                {%- if item.properties and item.properties != empty -%}
+                  <div style="font-size:.8rem;color:#444;margin-top:.5rem;">
+                    {% for p in item.properties %}
+                      {% unless p.last == blank %}
+                        <div>
+                          <strong>{{ p.first }}:</strong>
+                          {% if p.last contains '/uploads/' %}
+                            <a href="{{ p.last }}" target="_blank" style="color:#000;">Voir le fichier</a>
+                          {% else %}
+                            {{ p.last }}
+                          {% endif %}
+                        </div>
+                      {% endunless %}
+                    {% endfor %}
+                  </div>
+                {%- endif -%}
 
-  {% if block.settings.secondary_btn_suffix_icon != blank %}
-    #SectionAtcBtn-{{ section_id }} .button__label::after {
-      background-image: url('{{ block.settings.secondary_btn_suffix_icon | image_url }}');
-    }
-  {% endif %}
-</style>
+                <!-- Bouton supprimer -->
+                <div style="margin-top:.75rem;">
+                  <button
+                    type="submit"
+                    name="updates[{{ item.key }}]"
+                    value="0"
+                    style="background:none;border:0;padding:0;color:#c00;font-size:.8rem;cursor:pointer;text-decoration:underline;"
+                  >
+                    Retirer
+                  </button>
+                </div>
+              </div>
+            </td>
 
-<div
-  {{ block.shopify_attributes }}
-  style="--margin-top: {{ block.settings.margin_top | divided_by: 10.0 }}rem;--margin-bottom: {{ block.settings.margin_bottom | divided_by: 10.0 }}rem;"
->
-  {%- if product != blank -%}
+            <td style="padding:1rem 0;font-size:.95rem;white-space:nowrap;">
+              {{ item.final_price | money }}
+              {% if item.original_price > item.final_price %}
+                <div style="color:#c00;font-size:.8rem;">
+                  <s style="color:#999;">{{ item.original_price | money }}</s>
+                  promo
+                </div>
+              {% endif %}
+            </td>
 
-    {%- comment -%}
-      VERSION FORCÉE, SANS LE WRAPPER <product-form>.
-      On va directement rendre le <form> Shopify.
-      Objectif : empêcher le JS du thème d'intercepter le submit.
-    {%- endcomment -%}
-
-    {%- form 'product',
-      product,
-      id: product_form_id,
-      class: 'form main-product-form',
-      enctype: "multipart/form-data",
-      action: routes.cart_add_url
-    -%}
-
-      <div class="product-form__error-message-wrapper" role="alert" hidden>
-        <svg
-          aria-hidden="true"
-          focusable="false"
-          class="icon icon-error"
-          viewBox="0 0 13 13"
-        >
-          <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"></circle>
-          <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"></circle>
-          <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"></path>
-          <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7"></path>
-        </svg>
-        <span class="product-form__error-message"></span>
-      </div>
-
-      {%- comment -%}
-        On laisse ce conteneur "product-form__variants" vide pour garder les hooks CSS,
-        même si le JS ne va plus s'en servir.
-      {%- endcomment -%}
-      <div
-        class="hidden product-form__variants"
-        id="product-form-{{ section.id }}__variants"
-        data-values=""
-      ></div>
-
-      {%- comment -%}
-        Variante sélectionnée.
-        On a retiré data-skip-cart parce que ça déclenchait une logique JS custom.
-      {%- endcomment -%}
-      <input
-        type="hidden"
-        name="id"
-        value="{{ product.selected_or_first_available_variant.id }}"
-        class="product-variant-id"
-      >
-
-      <div class="product-form__buttons{% if block.settings.uppercase_text %} product-form__buttons--uppercase{% endif %}">
-        {%- liquid
-          assign check_against_inventory = true
-          if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
-            assign check_against_inventory = false
-          endif
-          if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
-            assign quantity_rule_soldout = true
-          endif
-        -%}
-
-        {%- comment -%}
-          BOUTON "AJOUTER AU PANIER"
-          Ici on reste en <button type="submit">,
-          donc Shopify reçoit vraiment le POST vers /cart/add.
-        {%- endcomment -%}
-        <button
-          id="ProductSubmitButton-{{ section_id }}"
-          type="submit"
-          name="add"
-          class="atc-button product-form__submit button button--full-width button--margin-x{% if true %} main-product-atc{% endif %}{% if block.settings.prefix_icon != blank %} button--prefix-icon{% endif %}{% if block.settings.suffix_icon != blank %} button--suffix-icon{% endif %}"
-          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-            disabled
-            data-unavailable="true"
-          {% endif %}
-        >
-          <span class="main-atc__error" style="display:none;"></span>
-          <span class="main-atc__label button__label">
-            {% if block.settings.display_price %}
-              <span
-                id="main-atc-price-{{ section.id }}"
-                class="main-atc-price{% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %} hidden{% endif %}"
+            <td style="padding:1rem 0;">
+              <input
+                style="width:60px;border:1px solid #ccc;border-radius:4px;padding:.4rem;font-size:.9rem;"
+                type="number"
+                min="0"
+                name="updates[{{ item.key }}]"
+                value="{{ item.quantity }}"
               >
-                {{ product.selected_or_first_available_variant.price | money }} •
-              </span>
-            {% endif %}
-            <span class="main-atc__label__text">
-              {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
-                {{ 'products.product.sold_out' | t }}
-              {%- else -%}
-                {{ 'products.product.add_to_cart' | t }}
-              {%- endif -%}
-            </span>
-          </span>
+            </td>
 
-          <div class="loading-overlay__spinner hidden">
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              class="spinner"
-              viewBox="0 0 66 66"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-            </svg>
-          </div>
-        </button>
+            <td style="padding:1rem 0;text-align:right;white-space:nowrap;font-weight:600;">
+              {{ item.final_line_price | money }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-        {%- comment -%}
-          BOUTON SECONDAIRE (optionnel)
-          Toujours en <button type="button">, donc sans action.
-          On le laisse visuel pour ne pas casser ton design.
-          Si tu veux qu'il mène direct au checkout ensuite, on pourra le transformer en lien plus tard.
-        {%- endcomment -%}
-        {%- if block.settings.enable_secondary_btn != blank -%}
-          <button
-            id="SectionAtcBtn-{{ section.id }}"
-            type="button"
-            class="button button--secondary main-product-atc button--has-spinner button--full-width product-form__submit"
-            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-              disabled
-            {% endif %}
-          >
-            <span class="button__label">
-              {{ block.settings.secondary_btn_label }}
-            </span>
-            <div class="loading-overlay__spinner">
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                class="spinner"
-                viewBox="0 0 66 66"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-              </svg>
+    <!-- Sous-total -->
+    <div style="text-align:right;margin-top:1.5rem;">
+      <p style="font-size:1rem;margin:0 0 .25rem;">
+        Sous-total :
+        <strong>{{ cart.total_price | money }}</strong>
+      </p>
+      {% if cart.cart_level_discount_applications.size > 0 %}
+        <div style="font-size:.9rem;color:#c00;">
+          {% for discount_application in cart.cart_level_discount_applications %}
+            <div>
+              {{ discount_application.title }} :
+              -{{ discount_application.total_allocated_amount | money }}
             </div>
-          </button>
-        {%- endif -%}
-
-        {%- comment -%}
-          BOUTON "Acheter maintenant" dynamique Shopify
-          => On le garde tel quel.
-        {%- endcomment -%}
-        {%- if block.settings.show_dynamic_checkout -%}
-          {{ form | payment_button }}
-        {%- endif -%}
-
-      </div>
-    {%- endform -%}
-
-  {%- else -%}
-    <div class="product-form">
-      <div class="product-form__buttons form">
-        <button
-          type="submit"
-          name="add"
-          class="product-form__submit button button--full-width button--primary"
-          disabled
-        >
-          {{ 'products.product.sold_out' | t }}
-        </button>
-      </div>
-    </div>
-  {%- endif -%}
-
-  {%- if show_pickup_availability -%}
-    {{ 'component-pickup-availability.css' | asset_url | stylesheet_tag }}
-
-    {%- assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities
-      | where: 'pick_up_enabled', true
-    -%}
-
-    <pickup-availability
-      class="product__pickup-availabilities no-js-hidden quick-add-hidden"
-      {% if product.selected_or_first_available_variant.available and pick_up_availabilities.size > 0 %}
-        available
+          {% endfor %}
+        </div>
       {% endif %}
-      data-root-url="{{ routes.root_url }}"
-      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-      data-has-only-default-variant="{{ product.has_only_default_variant }}"
-    >
-      <template>
-        <pickup-availability-preview class="pickup-availability-preview">
-          {% render 'icon-unavailable' %}
-          <div class="pickup-availability-info">
-            <p class="caption-large">{{ 'products.product.pickup_availability.unavailable' | t }}</p>
-            <button class="pickup-availability-button link link--text underlined-link">
-              {{ 'products.product.pickup_availability.refresh' | t }}
-            </button>
-          </div>
-        </pickup-availability-preview>
-      </template>
-    </pickup-availability>
+      <p style="font-size:.8rem;color:#666;margin:.5rem 0 0;">
+        Les frais de livraison et réductions éventuelles seront calculés à l'étape suivante.
+      </p>
+    </div>
 
-    <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
-  {%- endif -%}
-</div>
+    <!-- Actions -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:1rem;margin-top:2rem;">
+      <button
+        type="submit"
+        name="update"
+        class="button"
+        style="cursor:pointer;background:#eee;border:1px solid #ccc;border-radius:6px;padding:.8rem 1rem;font-size:.9rem;font-weight:600;"
+      >
+        Mettre à jour le panier
+      </button>
+
+      <button
+        type="submit"
+        name="checkout"
+        class="button"
+        style="cursor:pointer;background:#000;color:#fff;border:0;border-radius:6px;padding:.8rem 1rem;font-size:.9rem;font-weight:600;"
+      >
+        Passer à la caisse
+      </button>
+    </div>
+  </form>
+
+{% endif %}
