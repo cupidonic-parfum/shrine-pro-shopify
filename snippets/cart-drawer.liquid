@@ -25,6 +25,10 @@
     }
   {% endif %}
 </style>
+{%- comment -%} wrapper pour rafraîchissement via ?sections= {%- endcomment -%}
+<div id="CartDrawer-Section"
+     data-section-id="{{ section.id }}"
+     data-section-type="cart-drawer">
 
 <cart-drawer class="drawer{% if cart == empty %} is-empty{% endif %}{% if section.settings.test_mode %} active{% endif %} cart-drawer--desktop-width-{{ section.settings.desktop_width }} cart-drawer--mobile-width-{{ section.settings.mobile_width }}" data-type='modal'>
   <div id="CartDrawer" class="cart-drawer">
@@ -754,6 +758,7 @@
     </div>
   </div>
 </cart-drawer>
+</div><!-- /#CartDrawer-Section -->
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
