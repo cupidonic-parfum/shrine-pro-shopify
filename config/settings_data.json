@@ -428,7 +428,7 @@
           "heading_text": "Panier",
           "heading_alignment": "center",
           "desktop_width": "normal",
-          "mobile_width": "partial",
+          "mobile_width": "full",
           "enable_header_bg": false,
           "header_bg_color": "#f3f3f3",
           "enable_body_bg": false,
@@ -534,7 +534,7 @@
       },
       "8703857832570158530": {
         "type": "shopify://apps/opus-cart-upsell/blocks/cart-drawer-app/6a3c5cf8-b330-4c39-a8c5-80f923c2e741",
-        "disabled": true,
+        "disabled": false,
         "settings": {}
       }
     }
