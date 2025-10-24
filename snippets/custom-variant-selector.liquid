@@ -1,0 +1,348 @@
+<div id="cvs-{{ section.id }}-{{ block.id }}" class="custom-variant-selector">
+
+  {% assign displayed_variants = product.variants | slice: 0, 3 %}
+
+  {% for variant in displayed_variants %}
+    <label class="custom-variant-selector__block{% if forloop.first %} selected{% endif %}"
+       data-variant-id="{{ variant.id }}"
+       data-o1="{{ variant.option1 | escape }}"
+       data-o2="{{ variant.option2 | escape }}"
+       data-o3="{{ variant.option3 | escape }}">
+
+      <span class="variant-indicator"></span>
+      <input type="radio" name="custom_variant_id" class="hidden-radio" value="{{ variant.id }}" {% if forloop.first %}checked{% endif %}>
+      <div class="variant-card">
+        {% if forloop.index == 2 %}
+  <div class="variant-badge">Économisez 50€</div>
+{% endif %}
+
+    {% if variant.metafields.custom.custom_image %}
+  <img
+    src="{{ variant.metafields.custom.custom_image | image_url: width: 300 }}"
+    alt="{{ variant.title }}"
+    class="{% if forloop.index == 1 %}img-small{% else %}img-large{% endif %}">
+{% elsif variant.featured_media %}
+  <img
+    src="{{ variant.featured_media.preview_image | image_url: width: 300 }}"
+    alt="{{ variant.title }}"
+    class="{% if forloop.index == 1 %}img-small{% else %}img-large{% endif %}">
+{% endif %}
+
+
+        <p class="variant-label">{{ variant.title }}</p>
+<div class="variant-price">
+  {% if variant.compare_at_price > variant.price %}
+    <span class="old-price">{{ variant.compare_at_price | money }}</span>
+  {% endif %}
+  <span class="current-price">{{ variant.price | money }}</span>
+</div>
+      </div>
+    </label>
+  {% endfor %}
+</div>
+
+<style>
+.custom-variant-selector{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr)); /* deux colonnes permanentes */
+  gap:12px;
+  margin-top:20px;
+}
+  .hidden-radio {
+  display: none;
+}
+
+
+/* chaque carte occupe exactement sa colonne */
+.custom-variant-selector__block{
+  width:100%;                 /* ← la grille gère la largeur */
+  box-sizing:border-box;
+  border:2px solid #ccc;
+  border-radius:10px;
+  padding:10px;
+  text-align:center;
+  position:relative;
+  cursor:pointer;
+  transition:all .2s ease;
+}
+.variant-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* aligne le contenu vers le bas */
+  height: 150px; /* fixe une même hauteur pour toutes les cartes */
+}
+
+.variant-card img.img-small {
+  height: 50px;
+  object-fit: contain;
+  align-self: center;
+}
+
+.variant-card img.img-large {
+  height: 70px;
+  object-fit: contain;
+  align-self: center;
+}
+
+.custom-variant-selector__block.selected{
+  border-color:#000;
+  background:#f6f6f6;
+}
+
+/*  décorations inchangées  */
+.variant-badge {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1A1A1A;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  white-space: nowrap;       /* empêche le retour à la ligne */
+  overflow: hidden;          /* masque le débordement */
+  text-overflow: ellipsis;   /* ajoute "..." si trop long */
+  max-width: 90%;            /* limite la largeur */
+  z-index: 2;
+}
+  .variant-price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 14px;
+}
+
+.current-price {
+  font-weight: bold;
+  color: #000;
+}
+
+
+.variant-indicator{
+  width:10px;height:10px;border-radius:50%;
+  border:2px solid #000;position:absolute;top:10px;right:10px;
+}
+.custom-variant-selector__block.selected .variant-indicator{background:#000}
+/* override de position pour la pastille promo */
+.custom-variant-selector .variant-badge{
+  top: -10px;                 /* remonte la pastille */
+  transform: translateX(-50%);/* garde le centrage horizontal */
+}
+/* 1) Descendre tout le contenu, sans bouger la pastille */
+#cvs-{{ section.id }}-{{ block.id }} .variant-card{
+  padding-top: 14px;        /* ↑ augmente pour descendre davantage (ex: 18px) */
+  justify-content: flex-end;/* on garde l’ancrage en bas */
+}
+
+/* (optionnel) si tu veux descendre encore l’image visuellement */
+#cvs-{{ section.id }}-{{ block.id }} .variant-card img{
+  margin-top: auto;         /* pousse l’image vers le bas dans la colonne */
+}
+
+/* 2) Resserre l’espace texte (nom ↔ prix) */
+#cvs-{{ section.id }}-{{ block.id }} .variant-label{
+  margin: 4px 0 0;          /* p a une marge par défaut — on la réduit */
+  line-height: 1.2;         /* texte plus compact */
+}
+
+#cvs-{{ section.id }}-{{ block.id }} .variant-price{
+  margin-top: 2px;          /* était 4px : on réduit l’écart nom/prix */
+  gap: 4px;                 /* resserre l’écart entre ancien prix et prix actuel */
+}
+
+/* La pastille reste en place (inutile de toucher si tu as déjà top:-10px) */
+/* #cvs-... .variant-badge{ top:-10px; } */
+
+
+
+
+
+
+/* +1 cran (taller) */
+#cvs-{{ section.id }}-{{ block.id }} .variant-card{
+  height: 124px;    /* ↑ depuis 118px */
+  padding-top: 12px;
+}
+#cvs-{{ section.id }}-{{ block.id }} .variant-card img.img-small{
+  height: 42px;     /* ↑ depuis 40px */
+}
+#cvs-{{ section.id }}-{{ block.id }} .variant-card img.img-large{
+  height: 56px;     /* ↑ depuis 54px */
+}
+
+/* textes : on garde la lisibilité sans trop grossir */
+#cvs-{{ section.id }}-{{ block.id }} .variant-label{
+  font-size: 15px;
+  line-height: 1.22;
+}
+#cvs-{{ section.id }}-{{ block.id }} .variant-price,
+#cvs-{{ section.id }}-{{ block.id }} .old-price{
+  font-size: 13px;
+}
+
+/* (optionnel) un léger souffle entre cartes */
+#cvs-{{ section.id }}-{{ block.id }}.custom-variant-selector{
+  gap: 12px;
+}
+
+/* Mobile coordonné */
+@media (max-width: 749px){
+  #cvs-{{ section.id }}-{{ block.id }} .variant-card{ height: 116px; }
+  #cvs-{{ section.id }}-{{ block.id }} .variant-card img.img-small{ height: 39px; }
+  #cvs-{{ section.id }}-{{ block.id }} .variant-card img.img-large{ height: 53px; }
+}
+
+
+
+
+
+
+</style>
+
+<script>
+(() => {
+  document.addEventListener('DOMContentLoaded', () => {
+    const root = document.getElementById("cvs-{{ section.id }}-{{ block.id }}") 
+              || document.querySelector(".custom-variant-selector");
+    if (!root) return;
+
+    // ⬇️ FORÇAGE: mets ICI les IDs de sections à rafraîchir (ton drawer + le header)
+    const FORCE_SECTION_IDS = ['cart-drawer','header'];
+
+    const VARIANTS  = {{ product.variants | json }};
+    const OPTS_CNT  = {{ product.options | size }};
+    const sectionId = "{{ section.id }}";
+
+    // Boutons / Form de la section produit
+    const stickyBtn   = document.getElementById(`SectionAtcBtn-${sectionId}`); // sticky ATC (type="button")
+    const productForm = document.getElementById(`product-form-${sectionId}`);  // form principal si présent
+    const qtyInput    = document.getElementById(`Quantity-${sectionId}`) || (productForm ? productForm.querySelector('input[name="quantity"]') : null);
+
+    const cards = Array.from(root.querySelectorAll('.custom-variant-selector__block'));
+    if (!cards.length) return;
+
+    // Helpers variantes
+    const byId = id => VARIANTS.find(v => String(v.id) === String(id));
+    const byOpts = (o1,o2,o3) => VARIANTS.find(v => { const o=v.options; return (o[0]==o1) && (OPTS_CNT<2||o[1]==o2) && (OPTS_CNT<3||o[2]==o3); });
+    const selCard = () => root.querySelector('.custom-variant-selector__block.selected') || cards[0] || null;
+    const selVariant = () => { const c=selCard(); return c ? (byOpts(c.dataset.o1,c.dataset.o2,c.dataset.o3) || (c.dataset.variantId?byId(c.dataset.variantId):null)) : null; };
+    const getQty = () => { const n = qtyInput ? parseInt(qtyInput.value,10) : 1; return (isNaN(n)||n<=0) ? 1 : n; };
+
+    function ensureFormHasVariant(variantId){
+      if (!productForm) return;
+      const sel = productForm.querySelector('select[name="id"]');
+      if (sel){ if (String(sel.value)!==String(variantId)){ sel.value=String(variantId); sel.dispatchEvent(new Event('change',{bubbles:true})); } return; }
+      let hid = productForm.querySelector('input[name="id"]');
+      if (!hid){ hid = document.createElement('input'); hid.type='hidden'; hid.name='id'; productForm.appendChild(hid); }
+      if (String(hid.value)!==String(variantId)){ hid.value=String(variantId); productForm.dispatchEvent(new Event('change',{bubbles:true})); }
+    }
+
+    // Sélection visuelle des cartes + sync form
+    cards.forEach(card=>{
+      card.addEventListener('click', () => {
+        cards.forEach(b=>b.classList.remove('selected'));
+        card.classList.add('selected');
+        const r=card.querySelector('input[type="radio"]'); if (r) r.checked=true;
+        const v = selVariant(); if (v) ensureFormHasVariant(v.id);
+      });
+    });
+    // Init
+    (function(){
+      let currentId = null;
+      const idField = productForm && (productForm.querySelector('select[name="id"], input[name="id"]'));
+      if (idField) currentId = idField.value;
+      if (!currentId) currentId = "{{ product.selected_or_first_available_variant.id }}";
+      const initial = cards.find(b => String(b.dataset.variantId)===String(currentId)) || cards[0];
+      if (initial){ cards.forEach(b=>b.classList.remove('selected')); initial.classList.add('selected'); const r=initial.querySelector('input[type="radio"]'); if (r) r.checked=true; const v=selVariant(); if (v) ensureFormHasVariant(v.id); }
+    })();
+
+    // --- Rafraîchissement des SECTIONS (IDs forcés) ---
+    const sectionsParam = encodeURIComponent(FORCE_SECTION_IDS.join(','));
+    const sectionsUrl   = encodeURIComponent(window.location.pathname);
+
+    function replaceSections(map){
+      if (!map) return false;
+      let ok=false;
+      FORCE_SECTION_IDS.forEach(id=>{
+        const html = map[id]; if (!html) return;
+        const tmp = document.createElement('div'); tmp.innerHTML = html.trim();
+        // cherche le noeud racine portant data-section-id=id, sinon remplace le premier enfant
+        const repl = tmp.querySelector(`[data-section-id="${id}"]`) || tmp.firstElementChild;
+        const current = document.querySelector(`[data-section-id="${id}"]`);
+        if (repl && current){ current.replaceWith(repl); ok=true; }
+      });
+      return ok;
+    }
+
+    function openDrawer(){
+      const drawer = document.querySelector('cart-drawer, #CartDrawer');
+      if (drawer && typeof drawer.open === 'function'){ try{ drawer.open(); }catch(e){} }
+      document.dispatchEvent(new CustomEvent('cart:open',{detail:{source:'cvs'}}));
+      document.body.classList.add('cart-open','drawer--cart-open');
+      const opener = document.querySelector('[data-cart-drawer-open], [data-action="open-cart"], .js-openCartDrawer, .header__icon--cart, .cart-toggle, .open-cart, #CartDrawer-Open');
+      if (opener) opener.click();
+    }
+
+    async function addToCartAjax(variantId, qty){
+      const fd = new FormData(); fd.set('id', variantId); fd.set('quantity', qty);
+      const res = await fetch(`/cart/add.js?sections=${sectionsParam}&sections_url=${sectionsUrl}`, { method:'POST', body:fd, headers:{'Accept':'application/json'} });
+      if (!res.ok) throw new Error('add.js failed');
+      const json = await res.json();
+      const map  = json.sections || json;
+      // remplace nos sections forçées
+      replaceSections(map);
+      // signaux + ouverture
+      document.dispatchEvent(new CustomEvent('cart:refresh',{detail:{source:'cvs'}}));
+      document.dispatchEvent(new CustomEvent('cart:updated',{detail:{source:'cvs'}}));
+      document.dispatchEvent(new CustomEvent('product:added',{detail:{source:'cvs', id:variantId, qty}}));
+      openDrawer();
+    }
+
+    function setBusy(btn, on){
+      if (!btn) return;
+      btn.classList.toggle('is-loading', !!on);
+      btn.disabled = !!on;
+      btn.setAttribute('aria-disabled', String(!!on));
+    }
+
+    // Sticky ATC (type="button")
+    if (stickyBtn){
+      let busy=false;
+      stickyBtn.addEventListener('click', async (e)=>{
+        e.preventDefault();
+        if (busy) return;
+        const v = selVariant(); if (!v || !v.available) return;
+        ensureFormHasVariant(v.id);
+        busy=true; setBusy(stickyBtn, true);
+        try{ await addToCartAjax(v.id, getQty()); } catch(e){ console.warn(e); }
+        finally{ setBusy(stickyBtn, false); busy=false; }
+      });
+    }
+
+    // Form principal (si existant)
+    if (productForm){
+      productForm.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        const submit = productForm.querySelector('button[name="add"], button[type="submit"]:not(.shopify-payment-button__button)');
+        const v = selVariant(); if (!v || !v.available) return;
+        ensureFormHasVariant(v.id);
+        setBusy(submit, true);
+        try{ await addToCartAjax(v.id, getQty()); } catch(e){ console.warn(e); }
+        finally{ setBusy(submit, false); }
+      }, true);
+    }
+
+    // Style léger
+    const s=document.createElement('style'); s.textContent=`.is-loading{opacity:.7;pointer-events:none;position:relative;}`; document.head.appendChild(s);
+  });
+})();
+</script>

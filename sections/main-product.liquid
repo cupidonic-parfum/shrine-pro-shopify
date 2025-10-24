@@ -681,25 +681,11 @@
                 sizing_chart_html: sizing_chart_html,
                 has_filtering: has_filtering
               %}
-            {%- when 'buy_buttons' -%}
-  <product-form
-    id="ProductForm-{{ section.id }}"
-    class="product-form main-product-form"
-    data-section="{{ section.id }}"
-    data-product-id="{{ product.id }}"
-  >
-    {% form 'product', product: product, id: 'product-form-' | append: section.id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' %}
-      {%- render 'buy-buttons', 
-        block: block, 
-        product: product, 
-        product_form_id: 'product-form-' | append: section.id, 
-        section_id: section.id, 
-        show_pickup_availability: true, 
-        main_product: true 
-      -%}
-    {% endform %}
-  </product-form>
+              {%- when 'custom_variant_selector' -%}
+  {% render 'custom-variant-selector', product: product, section: section, block: block %}
 
+            {%- when 'buy_buttons' -%}
+              {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true, main_product: true -%}
             {%- when 'reviews' -%}
               {%- render 'reviews', block: block -%}
             {%- when 'rating' -%}
@@ -1182,6 +1168,8 @@
   "tag": "section",
   "class": "section",
   "blocks": [
+  
+
     {
       "type": "@app"
     },
@@ -1524,6 +1512,13 @@
         }
       ]
     },
+    {
+  "type": "custom_variant_selector",
+  "name": "Sélecteur variantes",
+  "limit": 1,
+  "settings": []
+},
+
     {
       "type": "rating_stars",
       "name": "Rating stars",
