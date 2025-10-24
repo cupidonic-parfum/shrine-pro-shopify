@@ -371,7 +371,7 @@
             "type": "subtotals",
             "settings": {
               "display_total_savings": true,
-              "savings_left_text": "<strong>Savings</strong>",
+              "savings_left_text": "<strong>Économies</strong>",
               "savings_right_text": "<strong>-[savings]</strong>",
               "savings_alignment": "spaced",
               "savings_text_color": "accent-1",
@@ -379,7 +379,7 @@
               "savings_position": "above",
               "savings_spacing": 10,
               "display_subtotal": true,
-              "subtotal_left_text": "<strong>Subtotal</strong>",
+              "subtotal_left_text": "<strong>Total</strong>",
               "subtotal_right_text": "<strong>[subtotal]</strong>",
               "subtotal_alignment": "spaced",
               "subtotal_text_color": "text",
