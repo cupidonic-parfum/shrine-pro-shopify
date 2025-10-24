@@ -252,7 +252,7 @@
     // spinner visuel
     btn.classList.add('is-loading');
 
-    // 1. Ajouter l'article au panier (AJAX Shopify natif)
+    // 1. ajout AJAX natif Shopify
     fetch('/cart/add.js', {
       method: 'POST',
       headers: {
@@ -269,8 +269,8 @@
       return res.json();
     })
     .then(function(data) {
-      // 2. Mettre à jour compteur panier en haut
-      fetch('/cart.js', {
+      // 2. mettre à jour le compteur panier dans le header
+      return fetch('/cart.js', {
         method: 'GET',
         headers: { 'Accept': 'application/json' }
       })
@@ -280,75 +280,41 @@
         if (countBubble) {
           countBubble.textContent = cartData.item_count;
         }
-      })
-      .catch(function() {
-        /* pas critique */
-      });
 
-      // 3. Recharger le contenu HTML du tiroir panier
-      // On va chercher le rendu du drawer sur /cart?view=drawer
-      return fetch('/cart?view=drawer', {
-        method: 'GET',
-        headers: {
-          'Accept': 'text/html'
-        }
-      });
-    })
-    .then(function(res) {
-      if (!res) return null;
-      if (!res.ok) throw new Error('drawer fetch failed');
-      return res.text();
-    })
-    .then(function(html) {
-      // 4. Injecter ce HTML dans le tiroir existant puis l'ouvrir
-      const drawer = document.querySelector('cart-drawer, .CartDrawer, .cart-drawer, #CartDrawer');
-      if (drawer && html) {
-        // si le drawer a un conteneur interne style .cart-drawer__inner, on remplace l'intérieur uniquement.
-        // on tente intelligemment :
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
+        // 3. ouvrir le tiroir panier
+        const drawerEl = document.querySelector('cart-drawer');
+        if (drawerEl) {
+          // enlever l'état vide s'il est là
+          drawerEl.classList.remove('is-empty');
 
-        // essaie de cibler le bon inner dans la réponse
-        let newInner =
-          doc.querySelector('cart-drawer') ||
-          doc.querySelector('.CartDrawer') ||
-          doc.querySelector('.cart-drawer') ||
-          doc.querySelector('#CartDrawer') ||
-          doc.body;
+          // forcer l'ouverture
+          drawerEl.classList.add('is-active', 'active', 'open', 'is-open');
+          drawerEl.removeAttribute('hidden');
 
-        if (newInner) {
-          // si on a trouvé un inner spécifique dans la réponse, on en prend juste le contenu
-          if (newInner.innerHTML) {
-            drawer.innerHTML = newInner.innerHTML;
-          } else {
-            // fallback: on remplace tout
-            drawer.innerHTML = html;
+          // accessibilité / focus
+          const dialogInner = drawerEl.querySelector('.drawer__inner');
+          if (dialogInner) {
+            dialogInner.setAttribute('aria-modal', 'true');
+            dialogInner.setAttribute('tabindex', '-1');
+            try { dialogInner.focus(); } catch(e) {}
           }
-        } else {
-          // dernier fallback: balance tout
-          drawer.innerHTML = html;
         }
 
-        // ouverture visuelle du drawer
-        drawer.classList.add('is-active', 'active', 'open', 'is-open');
-        if (drawer.hasAttribute('hidden')) {
-          drawer.removeAttribute('hidden');
+        // 4. feedback bouton visuel "Ajouté ✓"
+        btn.classList.remove('is-loading');
+        const labelEl = btn.querySelector('.main-atc__label__text');
+        if (labelEl) {
+          const oldText = labelEl.innerText;
+          labelEl.innerText = 'Ajouté au panier ✓';
+          setTimeout(function() {
+            labelEl.innerText = oldText;
+          }, 2000);
         }
-      }
-
-      // 5. Feedback visuel sur le bouton
-      btn.classList.remove('is-loading');
-      const labelEl = btn.querySelector('.main-atc__label__text');
-      if (labelEl) {
-        const oldText = labelEl.innerText;
-        labelEl.innerText = 'Ajouté au panier ✓';
-        setTimeout(function() {
-          labelEl.innerText = oldText;
-        }, 2000);
-      }
+      });
     })
     .catch(function(err) {
       console.error(err);
+
       btn.classList.remove('is-loading');
 
       const errEl = form.querySelector('.main-atc__error');
@@ -357,7 +323,7 @@
         errEl.textContent = "Impossible d'ajouter au panier.";
       }
 
-      // si tout a échoué, en dernier recours on redirige vers le panier
+      // fallback ultime : rediriger sur /cart si vraiment tout casse
       window.location.href = '/cart';
     });
   }, { capture: true });
