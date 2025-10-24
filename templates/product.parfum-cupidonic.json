@@ -188,6 +188,14 @@
             "margin_bottom": 24
           }
         },
+        "payment_badges_pRFmQA": {
+          "type": "payment_badges",
+          "settings": {
+            "enabled_payment_types": "american_express, apple_pay, google_pay, master, visa",
+            "margin_top": 15,
+            "margin_bottom": 15
+          }
+        },
         "e0a0b690-50df-4ca4-acfd-ce2980696cce": {
           "type": "shipping_checkpoints",
           "settings": {
@@ -354,6 +362,7 @@
         "04ba004e-2f54-4936-8b1c-8bcadf6573f6",
         "custom_liquid_qmHEfh",
         "buy_buttons",
+        "payment_badges_pRFmQA",
         "e0a0b690-50df-4ca4-acfd-ce2980696cce",
         "e7a28cbe-03cb-4c9d-a2c4-0e3e76ffb3e5",
         "description",
