@@ -230,7 +230,7 @@
   if (!btn) return;
 
   // -----------------
-  // util: recharge le drawer après ajout et l'ouvre (animation ok)
+  // util: recharge le drawer depuis la section, rouvre, ré-attache les handlers
   // -----------------
   function refreshDrawerAndOpen() {
     return fetch('/cart?section_id=cart-drawer', {
@@ -249,9 +249,7 @@
       const liveDrawerRoot = document.querySelector('cart-drawer');
 
       if (newDrawerRoot && liveDrawerRoot) {
-        // Remplace le contenu interne du drawer par la version fraîche
         liveDrawerRoot.innerHTML = newDrawerRoot.innerHTML;
-        // Assure les classes de base pour le style/largeur/anim
         liveDrawerRoot.classList.add(
           'drawer',
           'cart-drawer--desktop-width-normal',
@@ -259,7 +257,6 @@
           'animate'
         );
       } else {
-        // fallback si structure différente
         const newInnerCart = doc.querySelector('#CartDrawer');
         const liveInnerCart = document.querySelector('#CartDrawer');
         if (newInnerCart && liveInnerCart) {
@@ -267,8 +264,8 @@
         }
       }
 
-      // maj compteur dans le header
-      return fetch('/cart.js', {
+      // maj compteur du header après refresh
+      fetch('/cart.js', {
         method: 'GET',
         headers: { 'Accept': 'application/json' }
       })
@@ -278,37 +275,37 @@
         if (countBubble) {
           countBubble.textContent = cartData.item_count;
         }
+      })
+      .catch(() => {});
 
-        // clic virtuel sur l'icône panier pour laisser le thème appliquer l'anim
-        const cartToggleBtn = document.querySelector('[data-cart-drawer-toggle], .header__icon--cart, button[href="#CartDrawer"], a[href="#CartDrawer"]');
-        if (cartToggleBtn) {
-          try { cartToggleBtn.click(); } catch(e) {}
+      // rejoue l'animation d'ouverture
+      const cartToggleBtn = document.querySelector('[data-cart-drawer-toggle], .header__icon--cart, button[href="#CartDrawer"], a[href="#CartDrawer"]');
+      if (cartToggleBtn) {
+        try { cartToggleBtn.click(); } catch(e) {}
+      }
+
+      // force ouvert (juste au cas où)
+      const cartDrawerEl = document.querySelector('cart-drawer');
+      if (cartDrawerEl) {
+        cartDrawerEl.classList.remove('is-empty');
+        cartDrawerEl.classList.add('is-active', 'active', 'open', 'is-open');
+        cartDrawerEl.removeAttribute('hidden');
+
+        const inner = cartDrawerEl.querySelector('.drawer__inner');
+        if (inner) {
+          inner.setAttribute('aria-modal', 'true');
+          inner.setAttribute('tabindex', '-1');
+          try { inner.focus(); } catch(e) {}
         }
+      }
 
-        // forcer ouvert (au cas où)
-        const cartDrawerEl = document.querySelector('cart-drawer');
-        if (cartDrawerEl) {
-          cartDrawerEl.classList.remove('is-empty');
-          cartDrawerEl.classList.add('is-active', 'active', 'open', 'is-open');
-          cartDrawerEl.removeAttribute('hidden');
-
-          const inner = cartDrawerEl.querySelector('.drawer__inner');
-          if (inner) {
-            inner.setAttribute('aria-modal', 'true');
-            inner.setAttribute('tabindex', '-1');
-            try { inner.focus(); } catch(e) {}
-          }
-        }
-
-        // maintenant qu'on a re-rendu le drawer,
-        // on patch le clic "poubelle" pour rediriger vers /cart après suppression
-        attachRemoveHandlers();
-      });
+      // après avoir remplacé le HTML du drawer -> rebrancher les handlers
+      attachRemoveHandlers();
     });
   }
 
   // -----------------
-  // util: attache des handlers "supprimer" qui suppriment ET redirigent /cart
+  // util: attache les handlers "supprimer" pour que ça reste dans le tiroir (pas de redirection)
   // -----------------
   function attachRemoveHandlers() {
     const removeButtons = document.querySelectorAll('cart-drawer cart-remove-button button, cart-remove-button button');
@@ -323,23 +320,24 @@
 
         const lineItemEl = buttonEl.closest('li.cart-drawer-item, li.cart-item');
         if (!lineItemEl) {
-          window.location.href = '/cart';
+          // fallback extrême : si on n'a pas trouvé la ligne, on rafraîchit juste drawer
+          refreshDrawerAndOpen();
           return;
         }
 
         const qtyInput = lineItemEl.querySelector('.quantity__input[data-quantity-variant-id]');
         if (!qtyInput) {
-          window.location.href = '/cart';
+          refreshDrawerAndOpen();
           return;
         }
 
         const variantId = qtyInput.getAttribute('data-quantity-variant-id');
         if (!variantId) {
-          window.location.href = '/cart';
+          refreshDrawerAndOpen();
           return;
         }
 
-        // on met quantité = 0 côté Shopify
+        // on met quantité = 0 via l'API Shopify
         fetch('/cart/change.js', {
           method: 'POST',
           headers: {
@@ -356,22 +354,23 @@
           return res.json();
         })
         .then(function() {
-          // au lieu de tenter de répatcher le drawer en live,
-          // on envoie le client sur /cart à jour (UX propre, cohérente)
-          window.location.href = '/cart';
+          // au lieu de rediriger /cart, on recharge le drawer sur place
+          return refreshDrawerAndOpen();
         })
-        .catch(function() {
+        .catch(function(err) {
+          console.error(err);
+          // vraiment dernier recours : on tombe sur /cart
           window.location.href = '/cart';
         });
       }, { capture: true });
     });
   }
 
-  // attacher au chargement initial aussi
+  // branche les handlers delete sur version actuelle du tiroir (au cas où l'utilisateur ouvre le panier via l'icône)
   attachRemoveHandlers();
 
   // -----------------
-  // clic sur "Ajouter au panier"
+  // clic "Ajouter au panier"
   // -----------------
   btn.addEventListener('click', function(e) {
     if (btn.disabled) return;
@@ -389,13 +388,13 @@
     const qty = qtyInput ? qtyInput.value : '1';
 
     if (!id) {
-        console.warn("Pas d'ID de variante trouvé");
-        return;
+      console.warn("Pas d'ID de variante trouvé");
+      return;
     }
 
     btn.classList.add('is-loading');
 
-    // 1. ajout AJAX
+    // 1. Ajout AJAX
     fetch('/cart/add.js', {
       method: 'POST',
       headers: {
@@ -412,7 +411,7 @@
       return res.json();
     })
     .then(function() {
-      // 2. drawer à jour, ouvert, handlers poubelle patchés
+      // 2. Drawer à jour, ouvert, handlers rebranchés
       return refreshDrawerAndOpen();
     })
     .then(function() {
@@ -437,7 +436,7 @@
         errEl.textContent = "Impossible d'ajouter au panier.";
       }
 
-      // fallback ultime : panier normal
+      // dernier fallback si tout pète
       window.location.href = '/cart';
     });
   }, { capture: true });
