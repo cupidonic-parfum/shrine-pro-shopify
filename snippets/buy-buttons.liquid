@@ -224,3 +224,65 @@
     <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 </div>
+<script>
+(function() {
+  // Sélecteur du bouton ATC principal sur la page produit
+  const btn = document.getElementById('ProductSubmitButton-{{ section_id }}');
+  if (!btn) return;
+
+  // Empêche le thème de gérer le clic à sa façon cassée
+  btn.addEventListener('click', function(e) {
+    // si le bouton est déjà disabled, on laisse tomber
+    if (btn.disabled) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // on récupère le form qui contient l'input name="id"
+    const form = btn.closest('form');
+    if (!form) return;
+
+    const variantInput = form.querySelector('input[name="id"]');
+    const qtyInput = form.querySelector('input[name="quantity"]');
+
+    const id = variantInput ? variantInput.value : null;
+    const qty = qtyInput ? qtyInput.value : '1';
+
+    if (!id) {
+      console.warn('Pas de variant id trouvé');
+      return;
+    }
+
+    // on affiche le spinner visuellement
+    btn.classList.add('is-loading');
+
+    // on envoie nous-mêmes la requête d’ajout au panier
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        id: id,
+        quantity: qty
+      })
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('ATC failed');
+      return res.json();
+    })
+    .then(function(data) {
+      // Succès : on redirige vers le panier (comportement simple et fiable)
+      window.location.href = '/cart';
+    })
+    .catch(function(err) {
+      console.error(err);
+      btn.classList.remove('is-loading');
+      // petit message d'erreur visible
+      const errEl = form.querySelector('.main-atc__error');
+      if (errEl) {
+        errEl.style.display = 'block';
+        errEl.textContent = "Impossible d'ajouter au panier.";
+      }
+    });
+  }, { capture: true });
+})();
+</script>
