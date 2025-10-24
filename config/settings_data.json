@@ -428,7 +428,7 @@
           "heading_text": "Panier",
           "heading_alignment": "center",
           "desktop_width": "normal",
-          "mobile_width": "full",
+          "mobile_width": "partial",
           "enable_header_bg": false,
           "header_bg_color": "#f3f3f3",
           "enable_body_bg": false,
