@@ -1,0 +1,169 @@
+{% comment %}
+SECTION: main-cart-fallback
+But : fournir un panier 100% fonctionnel sans JS,
+pour remplacer le drawer cassé du thème ShrinePro.
+
+Cette section est faite pour être utilisée dans templates/cart.json.
+{% endcomment %}
+
+<section class="page-width" style="max-width:900px;margin:2rem auto;padding:1rem;">
+  {% if cart.item_count == 0 %}
+    <h1>Votre panier est vide</h1>
+    <p>Continuer vos achats :</p>
+    <p>
+      <a href="{{ routes.root_url }}" class="button">Retour à la boutique</a>
+    </p>
+  {% else %}
+    <form action="/cart" method="post" novalidate class="cart-form">
+      <h1 style="margin-bottom:1rem;">Votre panier</h1>
+
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="text-align:left;border-bottom:1px solid #ddd;">
+            <th style="padding:.5rem 0;">Produit</th>
+            <th style="padding:.5rem 0;">Prix</th>
+            <th style="padding:.5rem 0;">Quantité</th>
+            <th style="padding:.5rem 0;text-align:right;">Total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for item in cart.items %}
+            <tr style="border-bottom:1px solid #eee;vertical-align:top;">
+              <td style="padding:1rem 0;display:flex;gap:1rem;align-items:flex-start;">
+                <a href="{{ item.url }}" style="flex-shrink:0;display:block;width:80px;">
+                  {% if item.image %}
+                    <img
+                      src="{{ item.image | image_url: width:160 }}"
+                      alt="{{ item.image.alt | escape }}"
+                      style="width:80px;height:auto;border:1px solid #eee;border-radius:6px;display:block;"
+                      loading="lazy"
+                    >
+                  {% endif %}
+                </a>
+                <div style="line-height:1.4;">
+                  <a href="{{ item.url }}" style="font-weight:600;color:#000;text-decoration:none;">
+                    {{ item.product.title }}
+                  </a>
+
+                  {% if item.variant.title != 'Default Title' %}
+                    <div style="font-size:.9rem;color:#666;">
+                      {{ item.variant.title }}
+                    </div>
+                  {% endif %}
+
+                  {% if item.selling_plan_allocation %}
+                    <div style="font-size:.8rem;color:#666;margin-top:.25rem;">
+                      {{ item.selling_plan_allocation.selling_plan.name }}
+                    </div>
+                  {% endif %}
+
+                  {%- if item.properties and item.properties != empty -%}
+                    <div style="font-size:.8rem;color:#444;margin-top:.5rem;">
+                      {% for p in item.properties %}
+                        {% unless p.last == blank %}
+                          <div>
+                            <strong>{{ p.first }}:</strong>
+                            {% if p.last contains '/uploads/' %}
+                              <a href="{{ p.last }}" target="_blank" style="color:#000;">Voir le fichier</a>
+                            {% else %}
+                              {{ p.last }}
+                            {% endif %}
+                          </div>
+                        {% endunless %}
+                      {% endfor %}
+                    </div>
+                  {%- endif -%}
+
+                  <div style="margin-top:.75rem;">
+                    <button
+                      type="submit"
+                      name="updates[{{ item.key }}]"
+                      value="0"
+                      style="background:none;border:0;padding:0;color:#c00;font-size:.8rem;cursor:pointer;text-decoration:underline;"
+                    >
+                      Retirer
+                    </button>
+                  </div>
+                </div>
+              </td>
+
+              <td style="padding:1rem 0;font-size:.95rem;white-space:nowrap;">
+                {{ item.final_price | money }}
+                {% if item.original_price > item.final_price %}
+                  <div style="color:#c00;font-size:.8rem;">
+                    <s style="color:#999;">{{ item.original_price | money }}</s>
+                    promo
+                  </div>
+                {% endif %}
+              </td>
+
+              <td style="padding:1rem 0;">
+                <input
+                  style="width:60px;border:1px solid #ccc;border-radius:4px;padding:.4rem;font-size:.9rem;"
+                  type="number"
+                  min="0"
+                  name="updates[{{ item.key }}]"
+                  value="{{ item.quantity }}"
+                >
+              </td>
+
+              <td style="padding:1rem 0;text-align:right;white-space:nowrap;font-weight:600;">
+                {{ item.final_line_price | money }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div style="text-align:right;margin-top:1.5rem;">
+        <p style="font-size:1rem;margin:0 0 .25rem;">
+          Sous-total :
+          <strong>{{ cart.total_price | money }}</strong>
+        </p>
+
+        {% if cart.cart_level_discount_applications.size > 0 %}
+          <div style="font-size:.9rem;color:#c00;">
+            {% for discount_application in cart.cart_level_discount_applications %}
+              <div>
+                {{ discount_application.title }} :
+                -{{ discount_application.total_allocated_amount | money }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <p style="font-size:.8rem;color:#666;margin:.5rem 0 0;">
+          Les frais de livraison et les remises finales seront calculés à l'étape suivante.
+        </p>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;justify-content:flex-end;gap:1rem;margin-top:2rem;">
+        <button
+          type="submit"
+          name="update"
+          class="button"
+          style="cursor:pointer;background:#eee;border:1px solid #ccc;border-radius:6px;padding:.8rem 1rem;font-size:.9rem;font-weight:600;"
+        >
+          Mettre à jour le panier
+        </button>
+
+        <button
+          type="submit"
+          name="checkout"
+          class="button"
+          style="cursor:pointer;background:#000;color:#fff;border:0;border-radius:6px;padding:.8rem 1rem;font-size:.9rem;font-weight:600;"
+        >
+          Passer à la caisse
+        </button>
+      </div>
+    </form>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Panier fallback (sans JS)",
+  "settings": []
+}
+{% endschema %}
