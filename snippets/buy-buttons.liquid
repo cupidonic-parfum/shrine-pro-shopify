@@ -245,7 +245,7 @@
     const qty = qtyInput ? qtyInput.value : '1';
 
     if (!id) {
-      console.warn('Pas d’ID de variante trouvé');
+      console.warn("Pas d'ID de variante trouvé");
       return;
     }
 
@@ -268,83 +268,97 @@
       if (!res.ok) throw new Error('ATC failed');
       return res.json();
     })
-    .then(function(data) {
-      // 2. Mettre à jour le compteur du header
+    .then(function() {
+      // 2. Récupérer HTML frais du drawer (section_id=cart-drawer)
+      return fetch('/cart?section_id=cart-drawer', {
+        method: 'GET',
+        headers: { 'Accept': 'text/html' }
+      });
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('drawer fetch failed');
+      return res.text();
+    })
+    .then(function(html) {
+      // 3. Parser ce HTML et remplacer le contenu du tiroir en live
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const newDrawerRoot = doc.querySelector('cart-drawer');
+      const liveDrawerRoot = document.querySelector('cart-drawer');
+
+      if (newDrawerRoot && liveDrawerRoot) {
+        // On ne veut pas perdre les classes structurelles du drawer live
+        // On va juste remplacer l'intérieur
+        const liveCartDrawerInnerHTMLTarget = liveDrawerRoot.innerHTML;
+        liveDrawerRoot.innerHTML = newDrawerRoot.innerHTML;
+
+        // S'assurer que les classes de base responsive/anim restent
+        liveDrawerRoot.classList.add(
+          'drawer',
+          'cart-drawer--desktop-width-normal',
+          'cart-drawer--mobile-width-full',
+          'animate'
+        );
+      } else {
+        // fallback : essayer juste #CartDrawer
+        const newInnerCart = doc.querySelector('#CartDrawer');
+        const liveInnerCart = document.querySelector('#CartDrawer');
+        if (newInnerCart && liveInnerCart) {
+          liveInnerCart.innerHTML = newInnerCart.innerHTML;
+        }
+      }
+
+      // 4. Mettre à jour le compteur dans le header
       return fetch('/cart.js', {
         method: 'GET',
         headers: { 'Accept': 'application/json' }
       })
-      .then(r => r.json())
+      .then(function(r) { return r.json(); })
       .then(function(cartData) {
         const countBubble = document.querySelector('[data-cart-count], .cart-count-bubble, .header__cart-count');
         if (countBubble) {
           countBubble.textContent = cartData.item_count;
         }
-      })
-      .then(function() {
-        // 3. Charger le HTML à jour du tiroir
-        // On tente section_id=cart-drawer en premier (classique sur les thèmes dérivés de Dawn)
-        return fetch('/cart?section_id=cart-drawer', {
-          method: 'GET',
-          headers: {
-            'Accept': 'text/html'
+
+        // 5. Laisser le thème ré-initialiser les events du drawer
+        // On essaie de déclencher le même comportement que si l'utilisateur cliquait sur l'icône panier
+        const cartToggleBtn = document.querySelector('[data-cart-drawer-toggle], .header__icon--cart, button[href="#CartDrawer"], a[href="#CartDrawer"]');
+
+        if (cartToggleBtn) {
+          try { cartToggleBtn.click(); } catch(e) {}
+        }
+
+        // 6. Forcer l'état ouvert avec les classes correctes (slide-in)
+        const cartDrawerEl = document.querySelector('cart-drawer');
+        if (cartDrawerEl) {
+          cartDrawerEl.classList.remove('is-empty');
+          cartDrawerEl.classList.add('is-active', 'active', 'open', 'is-open');
+          cartDrawerEl.removeAttribute('hidden');
+
+          const inner = cartDrawerEl.querySelector('.drawer__inner');
+          if (inner) {
+            inner.setAttribute('aria-modal', 'true');
+            inner.setAttribute('tabindex', '-1');
+            try { inner.focus(); } catch(e) {}
           }
-        });
+        }
+
+        // 7. Feedback visuel sur le bouton
+        btn.classList.remove('is-loading');
+        const labelEl = btn.querySelector('.main-atc__label__text');
+        if (labelEl) {
+          const oldText = labelEl.innerText;
+          labelEl.innerText = 'Ajouté au panier ✓';
+          setTimeout(function() {
+            labelEl.innerText = oldText;
+          }, 2000);
+        }
       });
-    })
-    .then(function(res) {
-      if (!res || !res.ok) throw new Error('drawer fetch failed');
-      return res.text();
-    })
-    .then(function(html) {
-      // 4. Remplacer le contenu du tiroir avec le HTML frais
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-
-      // essaie de cibler l'élément racine du drawer renvoyé par la section
-      // on cherche le même markup que sur ta page : <div id="CartDrawer" class="cart-drawer"> ... </div>
-      const newDrawerContent = doc.querySelector('#CartDrawer');
-      const liveDrawerRoot = document.querySelector('#CartDrawer');
-
-      if (newDrawerContent && liveDrawerRoot) {
-        liveDrawerRoot.innerHTML = newDrawerContent.innerHTML;
-      } else {
-        // fallback total: si pas trouvé, on remplace tout <cart-drawer>
-        const fullNewDrawer = doc.querySelector('cart-drawer');
-        const liveCartDrawer = document.querySelector('cart-drawer');
-        if (fullNewDrawer && liveCartDrawer) {
-          liveCartDrawer.innerHTML = fullNewDrawer.innerHTML;
-        }
-      }
-
-      // 5. ouvrir visuellement le tiroir
-      const cartDrawerEl = document.querySelector('cart-drawer');
-      if (cartDrawerEl) {
-        cartDrawerEl.classList.remove('is-empty');
-        cartDrawerEl.classList.add('is-active', 'active', 'open', 'is-open');
-        cartDrawerEl.removeAttribute('hidden');
-
-        const inner = cartDrawerEl.querySelector('.drawer__inner');
-        if (inner) {
-          inner.setAttribute('aria-modal', 'true');
-          inner.setAttribute('tabindex', '-1');
-          try { inner.focus(); } catch(e) {}
-        }
-      }
-
-      // 6. feedback bouton
-      btn.classList.remove('is-loading');
-      const labelEl = btn.querySelector('.main-atc__label__text');
-      if (labelEl) {
-        const oldText = labelEl.innerText;
-        labelEl.innerText = 'Ajouté au panier ✓';
-        setTimeout(function() {
-          labelEl.innerText = oldText;
-        }, 2000);
-      }
     })
     .catch(function(err) {
       console.error(err);
+
       btn.classList.remove('is-loading');
 
       const errEl = form.querySelector('.main-atc__error');
@@ -353,7 +367,7 @@
         errEl.textContent = "Impossible d'ajouter au panier.";
       }
 
-      // fallback : redirection panier
+      // fallback : au pire redirection panier
       window.location.href = '/cart';
     });
   }, { capture: true });
