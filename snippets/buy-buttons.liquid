@@ -5,7 +5,7 @@
   - block: {Object} passing the block information.
   - product_form_id: {String} product form id.
   - section_id: {String} id of section to which this snippet belongs.
-  - show_pickup_availability:: {Boolean} for the pickup availability. If true the pickup availability is rendered, false - not rendered (optional).
+  - show_pickup_availability:: {Boolean} for the pickup availability.
 
   Usage:
   {% render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, show_pickup_availability: true %}
@@ -62,13 +62,20 @@
 >
   {%- if product != blank -%}
 
-    <product-form
-      id="ProductForm-{{ section.id }}"
-      class="product-form main-product-form"
-      data-section="{{ section.id }}"
-      data-options="{{ product.options | join: ',' }}"
-      data-main="{{ main_product }}"
-    >
+    {%- comment -%}
+      VERSION FORCÉE, SANS LE WRAPPER <product-form>.
+      On va directement rendre le <form> Shopify.
+      Objectif : empêcher le JS du thème d'intercepter le submit.
+    {%- endcomment -%}
+
+    {%- form 'product',
+      product,
+      id: product_form_id,
+      class: 'form main-product-form',
+      enctype: "multipart/form-data",
+      action: routes.cart_add_url
+    -%}
+
       <div class="product-form__error-message-wrapper" role="alert" hidden>
         <svg
           aria-hidden="true"
@@ -85,93 +92,103 @@
       </div>
 
       {%- comment -%}
-        VERSION SÉCURISÉE :
-        On force le formulaire à poster directement sur le panier Shopify,
-        sans dépendre du JS du thème ShrinePro pour l'AJAX ou le cart drawer.
+        On laisse ce conteneur "product-form__variants" vide pour garder les hooks CSS,
+        même si le JS ne va plus s'en servir.
       {%- endcomment -%}
+      <div
+        class="hidden product-form__variants"
+        id="product-form-{{ section.id }}__variants"
+        data-values=""
+      ></div>
 
-      {%- form 'product',
-        product,
-        id: product_form_id,
-        class: 'form',
-        enctype: "multipart/form-data",
-        action: routes.cart_add_url
-      -%}
+      {%- comment -%}
+        Variante sélectionnée.
+        On a retiré data-skip-cart parce que ça déclenchait une logique JS custom.
+      {%- endcomment -%}
+      <input
+        type="hidden"
+        name="id"
+        value="{{ product.selected_or_first_available_variant.id }}"
+        class="product-variant-id"
+      >
+
+      <div class="product-form__buttons{% if block.settings.uppercase_text %} product-form__buttons--uppercase{% endif %}">
+        {%- liquid
+          assign check_against_inventory = true
+          if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+            assign check_against_inventory = false
+          endif
+          if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+            assign quantity_rule_soldout = true
+          endif
+        -%}
 
         {%- comment -%}
-          Ce bloc vide était utilisé par le JS du thème pour gérer les variantes.
-          On le garde pour ne pas casser le style / sélecteurs CSS.
+          BOUTON "AJOUTER AU PANIER"
+          Ici on reste en <button type="submit">,
+          donc Shopify reçoit vraiment le POST vers /cart/add.
         {%- endcomment -%}
-        <div
-          class="hidden product-form__variants"
-          id="product-form-{{ section.id }}__variants"
-          data-values=""
-        ></div>
-
-        {%- comment -%}
-          Champ hidden qui contient l'ID de la variante sélectionnée.
-          IMPORTANT : on retire data-skip-cart pour éviter tout flux "skip cart"
-          qui reposait sur du JS (et qui plantait chez toi).
-        {%- endcomment -%}
-        <input
-          type="hidden"
-          name="id"
-          value="{{ product.selected_or_first_available_variant.id }}"
-          class="product-variant-id"
+        <button
+          id="ProductSubmitButton-{{ section_id }}"
+          type="submit"
+          name="add"
+          class="atc-button product-form__submit button button--full-width button--margin-x{% if true %} main-product-atc{% endif %}{% if block.settings.prefix_icon != blank %} button--prefix-icon{% endif %}{% if block.settings.suffix_icon != blank %} button--suffix-icon{% endif %}"
+          {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+            disabled
+            data-unavailable="true"
+          {% endif %}
         >
+          <span class="main-atc__error" style="display:none;"></span>
+          <span class="main-atc__label button__label">
+            {% if block.settings.display_price %}
+              <span
+                id="main-atc-price-{{ section.id }}"
+                class="main-atc-price{% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %} hidden{% endif %}"
+              >
+                {{ product.selected_or_first_available_variant.price | money }} •
+              </span>
+            {% endif %}
+            <span class="main-atc__label__text">
+              {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+          </span>
 
-        <div class="product-form__buttons{% if block.settings.uppercase_text %} product-form__buttons--uppercase{% endif %}">
-          {%- liquid
-            assign check_against_inventory = true
-            if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
-              assign check_against_inventory = false
-            endif
-            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
-              assign quantity_rule_soldout = true
-            endif
-          -%}
+          <div class="loading-overlay__spinner hidden">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              class="spinner"
+              viewBox="0 0 66 66"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+            </svg>
+          </div>
+        </button>
 
-          {%- comment -%}
-            BOUTON "AJOUTER AU PANIER"
-            On laisse type="submit" pour déclencher l'envoi du <form>.
-            Comme maintenant le <form> a une action directe vers le panier,
-            ce clic va ajouter l'article au panier sans dépendre du JS Ajax.
-          {%- endcomment -%}
+        {%- comment -%}
+          BOUTON SECONDAIRE (optionnel)
+          Toujours en <button type="button">, donc sans action.
+          On le laisse visuel pour ne pas casser ton design.
+          Si tu veux qu'il mène direct au checkout ensuite, on pourra le transformer en lien plus tard.
+        {%- endcomment -%}
+        {%- if block.settings.enable_secondary_btn != blank -%}
           <button
-            id="ProductSubmitButton-{{ section_id }}"
-            type="submit"
-            name="add"
-            class="atc-button product-form__submit button button--full-width button--margin-x{% if main_product %} main-product-atc{% else %} featured-product-atc-{{ section.id }}{% endif %}{% if block.settings.prefix_icon != blank %} button--prefix-icon{% endif %}{% if block.settings.suffix_icon != blank %} button--suffix-icon{% endif %}"
+            id="SectionAtcBtn-{{ section.id }}"
+            type="button"
+            class="button button--secondary main-product-atc button--has-spinner button--full-width product-form__submit"
             {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
               disabled
-              data-unavailable="true"
             {% endif %}
           >
-            <span class="main-atc__error" style="display:none;"></span>
-            <span class="main-atc__label button__label">
-              {% if block.settings.display_price %}
-                <span
-                  id="main-atc-price-{{ section.id }}"
-                  class="main-atc-price{% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %} hidden{% endif %}"
-                >
-                  {{ product.selected_or_first_available_variant.price | money }} •
-                </span>
-              {% endif %}
-              <span class="main-atc__label__text">
-                {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
-                  {{ 'products.product.sold_out' | t }}
-                {%- else -%}
-                  {{ 'products.product.add_to_cart' | t }}
-                {%- endif -%}
-              </span>
+            <span class="button__label">
+              {{ block.settings.secondary_btn_label }}
             </span>
-
-            {%- comment -%}
-              Le spinner reste dans le HTML,
-              mais vu qu'on n'intercepte plus l'envoi en AJAX,
-              il ne s'affichera pas vraiment. On le garde pour le style.
-            {%- endcomment -%}
-            <div class="loading-overlay__spinner hidden">
+            <div class="loading-overlay__spinner">
               <svg
                 aria-hidden="true"
                 focusable="false"
@@ -183,61 +200,20 @@
               </svg>
             </div>
           </button>
+        {%- endif -%}
 
-          {%- comment -%}
-            BOUTON SECONDAIRE (optionnel)
-            Celui-là dans ta version originale n'était pas "submit", mais "button"
-            avec data-skip-cart-button / logique JS personnalisée.
-            On le garde tel quel visuellement, mais ATTENTION : sans le JS du thème,
-            il ne fera potentiellement rien.
-            Si tu veux le rendre cliquable vers le checkout direct par exemple,
-            on peut aussi le transformer en <button formaction="/cart/add" ...>
-            ou en lien. Pour l'instant je le laisse identique visuellement.
-          {%- endcomment -%}
-          {%- if block.settings.enable_secondary_btn != blank -%}
-            <button
-              id="SectionAtcBtn-{{ section.id }}"
-              type="button"
-              class="button button--secondary{% if main_product %} main-product-atc{% else %} featured-product-atc-{{ section.id }}{% endif %} button--has-spinner button--full-width product-form__submit"
-              {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-                disabled
-              {% endif %}
-            >
-              <span class="button__label">
-                {{ block.settings.secondary_btn_label }}
-              </span>
-              <div class="loading-overlay__spinner">
-                <svg
-                  aria-hidden="true"
-                  focusable="false"
-                  class="spinner"
-                  viewBox="0 0 66 66"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
-                </svg>
-              </div>
-            </button>
-          {%- endif -%}
+        {%- comment -%}
+          BOUTON "Acheter maintenant" dynamique Shopify
+          => On le garde tel quel.
+        {%- endcomment -%}
+        {%- if block.settings.show_dynamic_checkout -%}
+          {{ form | payment_button }}
+        {%- endif -%}
 
-          {%- comment -%}
-            BOUTON "Acheter maintenant"
-            => c'est le bouton dynamique Shopify.
-            Il continue d'aller direct au checkout.
-            On le laisse tel quel.
-          {%- endcomment -%}
-          {%- if block.settings.show_dynamic_checkout -%}
-            {{ form | payment_button }}
-          {%- endif -%}
-
-        </div>
-      {%- endform -%}
-    </product-form>
+      </div>
+    {%- endform -%}
 
   {%- else -%}
-    {%- comment -%}
-      Cas fallback (produit vide)
-    {%- endcomment -%}
     <div class="product-form">
       <div class="product-form__buttons form">
         <button
