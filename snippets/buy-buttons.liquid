@@ -229,6 +229,150 @@
   const btn = document.getElementById('ProductSubmitButton-{{ section_id }}');
   if (!btn) return;
 
+  // -----------------
+  // util: recharge le drawer après ajout et l'ouvre (animation ok)
+  // -----------------
+  function refreshDrawerAndOpen() {
+    return fetch('/cart?section_id=cart-drawer', {
+      method: 'GET',
+      headers: { 'Accept': 'text/html' }
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('drawer fetch failed');
+      return res.text();
+    })
+    .then(function(html) {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, 'text/html');
+
+      const newDrawerRoot = doc.querySelector('cart-drawer');
+      const liveDrawerRoot = document.querySelector('cart-drawer');
+
+      if (newDrawerRoot && liveDrawerRoot) {
+        // Remplace le contenu interne du drawer par la version fraîche
+        liveDrawerRoot.innerHTML = newDrawerRoot.innerHTML;
+        // Assure les classes de base pour le style/largeur/anim
+        liveDrawerRoot.classList.add(
+          'drawer',
+          'cart-drawer--desktop-width-normal',
+          'cart-drawer--mobile-width-full',
+          'animate'
+        );
+      } else {
+        // fallback si structure différente
+        const newInnerCart = doc.querySelector('#CartDrawer');
+        const liveInnerCart = document.querySelector('#CartDrawer');
+        if (newInnerCart && liveInnerCart) {
+          liveInnerCart.innerHTML = newInnerCart.innerHTML;
+        }
+      }
+
+      // maj compteur dans le header
+      return fetch('/cart.js', {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(r => r.json())
+      .then(function(cartData) {
+        const countBubble = document.querySelector('[data-cart-count], .cart-count-bubble, .header__cart-count');
+        if (countBubble) {
+          countBubble.textContent = cartData.item_count;
+        }
+
+        // clic virtuel sur l'icône panier pour laisser le thème appliquer l'anim
+        const cartToggleBtn = document.querySelector('[data-cart-drawer-toggle], .header__icon--cart, button[href="#CartDrawer"], a[href="#CartDrawer"]');
+        if (cartToggleBtn) {
+          try { cartToggleBtn.click(); } catch(e) {}
+        }
+
+        // forcer ouvert (au cas où)
+        const cartDrawerEl = document.querySelector('cart-drawer');
+        if (cartDrawerEl) {
+          cartDrawerEl.classList.remove('is-empty');
+          cartDrawerEl.classList.add('is-active', 'active', 'open', 'is-open');
+          cartDrawerEl.removeAttribute('hidden');
+
+          const inner = cartDrawerEl.querySelector('.drawer__inner');
+          if (inner) {
+            inner.setAttribute('aria-modal', 'true');
+            inner.setAttribute('tabindex', '-1');
+            try { inner.focus(); } catch(e) {}
+          }
+        }
+
+        // maintenant qu'on a re-rendu le drawer,
+        // on patch le clic "poubelle" pour rediriger vers /cart après suppression
+        attachRemoveHandlers();
+      });
+    });
+  }
+
+  // -----------------
+  // util: attache des handlers "supprimer" qui suppriment ET redirigent /cart
+  // -----------------
+  function attachRemoveHandlers() {
+    const removeButtons = document.querySelectorAll('cart-drawer cart-remove-button button, cart-remove-button button');
+
+    removeButtons.forEach(function(buttonEl) {
+      if (buttonEl.__cupidonicBound) return;
+      buttonEl.__cupidonicBound = true;
+
+      buttonEl.addEventListener('click', function(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        const lineItemEl = buttonEl.closest('li.cart-drawer-item, li.cart-item');
+        if (!lineItemEl) {
+          window.location.href = '/cart';
+          return;
+        }
+
+        const qtyInput = lineItemEl.querySelector('.quantity__input[data-quantity-variant-id]');
+        if (!qtyInput) {
+          window.location.href = '/cart';
+          return;
+        }
+
+        const variantId = qtyInput.getAttribute('data-quantity-variant-id');
+        if (!variantId) {
+          window.location.href = '/cart';
+          return;
+        }
+
+        // on met quantité = 0 côté Shopify
+        fetch('/cart/change.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            id: variantId,
+            quantity: 0
+          })
+        })
+        .then(function(res) {
+          if (!res.ok) throw new Error('remove failed');
+          return res.json();
+        })
+        .then(function() {
+          // au lieu de tenter de répatcher le drawer en live,
+          // on envoie le client sur /cart à jour (UX propre, cohérente)
+          window.location.href = '/cart';
+        })
+        .catch(function() {
+          window.location.href = '/cart';
+        });
+      }, { capture: true });
+    });
+  }
+
+  // attacher au chargement initial aussi
+  attachRemoveHandlers();
+
+  // -----------------
+  // clic sur "Ajouter au panier"
+  // -----------------
   btn.addEventListener('click', function(e) {
     if (btn.disabled) return;
 
@@ -245,14 +389,13 @@
     const qty = qtyInput ? qtyInput.value : '1';
 
     if (!id) {
-      console.warn("Pas d'ID de variante trouvé");
-      return;
+        console.warn("Pas d'ID de variante trouvé");
+        return;
     }
 
-    // spinner visuel
     btn.classList.add('is-loading');
 
-    // 1. Ajouter l'article via AJAX Shopify
+    // 1. ajout AJAX
     fetch('/cart/add.js', {
       method: 'POST',
       headers: {
@@ -269,96 +412,23 @@
       return res.json();
     })
     .then(function() {
-      // 2. Récupérer HTML frais du drawer (section_id=cart-drawer)
-      return fetch('/cart?section_id=cart-drawer', {
-        method: 'GET',
-        headers: { 'Accept': 'text/html' }
-      });
+      // 2. drawer à jour, ouvert, handlers poubelle patchés
+      return refreshDrawerAndOpen();
     })
-    .then(function(res) {
-      if (!res.ok) throw new Error('drawer fetch failed');
-      return res.text();
-    })
-    .then(function(html) {
-      // 3. Parser ce HTML et remplacer le contenu du tiroir en live
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-
-      const newDrawerRoot = doc.querySelector('cart-drawer');
-      const liveDrawerRoot = document.querySelector('cart-drawer');
-
-      if (newDrawerRoot && liveDrawerRoot) {
-        // On ne veut pas perdre les classes structurelles du drawer live
-        // On va juste remplacer l'intérieur
-        const liveCartDrawerInnerHTMLTarget = liveDrawerRoot.innerHTML;
-        liveDrawerRoot.innerHTML = newDrawerRoot.innerHTML;
-
-        // S'assurer que les classes de base responsive/anim restent
-        liveDrawerRoot.classList.add(
-          'drawer',
-          'cart-drawer--desktop-width-normal',
-          'cart-drawer--mobile-width-full',
-          'animate'
-        );
-      } else {
-        // fallback : essayer juste #CartDrawer
-        const newInnerCart = doc.querySelector('#CartDrawer');
-        const liveInnerCart = document.querySelector('#CartDrawer');
-        if (newInnerCart && liveInnerCart) {
-          liveInnerCart.innerHTML = newInnerCart.innerHTML;
-        }
+    .then(function() {
+      // 3. feedback bouton
+      btn.classList.remove('is-loading');
+      const labelEl = btn.querySelector('.main-atc__label__text');
+      if (labelEl) {
+        const oldText = labelEl.innerText;
+        labelEl.innerText = 'Ajouté au panier ✓';
+        setTimeout(function() {
+          labelEl.innerText = oldText;
+        }, 2000);
       }
-
-      // 4. Mettre à jour le compteur dans le header
-      return fetch('/cart.js', {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(cartData) {
-        const countBubble = document.querySelector('[data-cart-count], .cart-count-bubble, .header__cart-count');
-        if (countBubble) {
-          countBubble.textContent = cartData.item_count;
-        }
-
-        // 5. Laisser le thème ré-initialiser les events du drawer
-        // On essaie de déclencher le même comportement que si l'utilisateur cliquait sur l'icône panier
-        const cartToggleBtn = document.querySelector('[data-cart-drawer-toggle], .header__icon--cart, button[href="#CartDrawer"], a[href="#CartDrawer"]');
-
-        if (cartToggleBtn) {
-          try { cartToggleBtn.click(); } catch(e) {}
-        }
-
-        // 6. Forcer l'état ouvert avec les classes correctes (slide-in)
-        const cartDrawerEl = document.querySelector('cart-drawer');
-        if (cartDrawerEl) {
-          cartDrawerEl.classList.remove('is-empty');
-          cartDrawerEl.classList.add('is-active', 'active', 'open', 'is-open');
-          cartDrawerEl.removeAttribute('hidden');
-
-          const inner = cartDrawerEl.querySelector('.drawer__inner');
-          if (inner) {
-            inner.setAttribute('aria-modal', 'true');
-            inner.setAttribute('tabindex', '-1');
-            try { inner.focus(); } catch(e) {}
-          }
-        }
-
-        // 7. Feedback visuel sur le bouton
-        btn.classList.remove('is-loading');
-        const labelEl = btn.querySelector('.main-atc__label__text');
-        if (labelEl) {
-          const oldText = labelEl.innerText;
-          labelEl.innerText = 'Ajouté au panier ✓';
-          setTimeout(function() {
-            labelEl.innerText = oldText;
-          }, 2000);
-        }
-      });
     })
     .catch(function(err) {
       console.error(err);
-
       btn.classList.remove('is-loading');
 
       const errEl = form.querySelector('.main-atc__error');
@@ -367,7 +437,7 @@
         errEl.textContent = "Impossible d'ajouter au panier.";
       }
 
-      // fallback : au pire redirection panier
+      // fallback ultime : panier normal
       window.location.href = '/cart';
     });
   }, { capture: true });
