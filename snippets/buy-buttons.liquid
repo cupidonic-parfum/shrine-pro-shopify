@@ -108,10 +108,11 @@
             type="submit"
             name="add"
             class="atc-button product-form__submit button button--full-width button--margin-x{% if main_product %} main-product-atc{% else %} featured-product-atc-{{ section.id }}{% endif %}{% if block.settings.prefix_icon != blank %} button--prefix-icon{% endif %}{% if block.settings.suffix_icon != blank %} button--suffix-icon{% endif %}"
-            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-              disabled
-              data-unavailable="true"
-            {% endif %}
+            {% if product.selected_or_first_available_variant.available == false %}
+  disabled
+  data-unavailable="true"
+{% endif %}
+
             data-required-fields="0"
             data-valid-fields="0"
           >
