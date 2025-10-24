@@ -104,20 +104,17 @@
             endif
           -%}
           <button
-  id="ProductSubmitButton-{{ section_id }}"
-  type="submit"
-  name="add"
-  class="atc-button product-form__submit button button--full-width button--margin-x{% if main_product %} main-product-atc{% else %} featured-product-atc-{{ section.id }}{% endif %}{% if block.settings.prefix_icon != blank %} button--prefix-icon{% endif %}{% if block.settings.suffix_icon != blank %} button--suffix-icon{% endif %}"
-  {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
-    disabled
-    data-unavailable="true"
-  {% endif %}
-  data-required-fields="0"
-  data-valid-fields="0"
-  aria-haspopup="false"
-  data-skip-ajax="true"
->
-
+            id="ProductSubmitButton-{{ section_id }}"
+            type="submit"
+            name="add"
+            class="atc-button product-form__submit button button--full-width button--margin-x{% if main_product %} main-product-atc{% else %} featured-product-atc-{{ section.id }}{% endif %}{% if block.settings.prefix_icon != blank %} button--prefix-icon{% endif %}{% if block.settings.suffix_icon != blank %} button--suffix-icon{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+              disabled
+              data-unavailable="true"
+            {% endif %}
+            data-required-fields="0"
+            data-valid-fields="0"
+          >
             <span class="main-atc__error" style="display:none;"></span>
             <span class="main-atc__label button__label">
               {% if block.settings.display_price %}
@@ -224,110 +221,3 @@
     <script src="{{ 'pickup-availability.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 </div>
-<script>
-(function() {
-  const btn = document.getElementById('ProductSubmitButton-{{ section_id }}');
-  if (!btn) return;
-
-  btn.addEventListener('click', function(e) {
-    if (btn.disabled) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    const form = btn.closest('form');
-    if (!form) return;
-
-    const variantInput = form.querySelector('input[name="id"]');
-    const qtyInput = form.querySelector('input[name="quantity"]');
-
-    const id = variantInput ? variantInput.value : null;
-    const qty = qtyInput ? qtyInput.value : '1';
-
-    if (!id) {
-      console.warn('Pas de variant id trouvé');
-      return;
-    }
-
-    // spinner visuel
-    btn.classList.add('is-loading');
-
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        id: id,
-        quantity: qty
-      })
-    })
-    .then(function(res) {
-      if (!res.ok) throw new Error('ATC failed');
-      return res.json();
-    })
-    .then(function(data) {
-      // 1. arrêter le spinner
-      btn.classList.remove('is-loading');
-
-      // 2. feedback visuel
-      const originalTextEl = btn.querySelector('.main-atc__label__text');
-      if (originalTextEl) {
-        const oldText = originalTextEl.innerText;
-        originalTextEl.innerText = 'Ajouté au panier ✓';
-
-        // remettre le texte d'origine après 2s
-        setTimeout(function() {
-          originalTextEl.innerText = oldText;
-        }, 2000);
-      }
-
-      // 3. si tu as un drawer <cart-drawer> sur la page,
-      // on essaie doucement de le déclencher s'il existe
-      const drawer = document.querySelector('cart-drawer, .CartDrawer, .cart-drawer, #CartDrawer');
-      if (drawer) {
-        // certains thèmes ont une méthode interne pour ouvrir
-        // on tente les patterns classiques
-        drawer.classList.add('is-active', 'active', 'open', 'is-open');
-        if (drawer.hasAttribute('hidden')) {
-          drawer.removeAttribute('hidden');
-        }
-
-        // si le thème expose un bouton "ouvrir panier" dans le header (icône panier),
-        // on peut le cliquer artificiellement pour forcer le drawer natif :
-        const cartToggleBtn = document.querySelector('[data-cart-drawer-toggle], .header__icon--cart, button[href="#cart-drawer"], a[href="#cart-drawer"]');
-        if (cartToggleBtn) {
-          try { cartToggleBtn.click(); } catch(e) {}
-        }
-      }
-
-      // 4. (optionnel) tu peux aussi rafraîchir le compteur panier visuellement
-      fetch('/cart.js', {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' }
-      })
-      .then(r => r.json())
-      .then(function(cartData) {
-        const countBubble = document.querySelector('[data-cart-count], .cart-count-bubble, .header__cart-count');
-        if (countBubble) {
-          countBubble.textContent = cartData.item_count;
-        }
-      })
-      .catch(function() {
-        /* pas grave si ça échoue */
-      });
-    })
-    .catch(function(err) {
-      console.error(err);
-      btn.classList.remove('is-loading');
-
-      const errEl = form.querySelector('.main-atc__error');
-      if (errEl) {
-        errEl.style.display = 'block';
-        errEl.textContent = "Impossible d'ajouter au panier.";
-      }
-    });
-  }, { capture: true });
-})();
-</script>
